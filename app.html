@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TaskFlow — Painel</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TaskFlow">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     SIDEBAR
+════════════════════════════════════════ -->
+<aside class="sidebar" id="sidebar">
+
+  <!-- Workspace header -->
+  <div class="ws-header">
+    <div class="ws-logo">
+      <svg width="22" height="22" viewBox="0 0 36 36" fill="none">
+        <rect width="36" height="36" rx="8" fill="#2563EB"/>
+        <rect x="8" y="8" width="8" height="8" rx="2" fill="white" opacity="0.9"/>
+        <rect x="20" y="8" width="8" height="8" rx="2" fill="white" opacity="0.45"/>
+        <rect x="8" y="20" width="8" height="8" rx="2" fill="white" opacity="0.45"/>
+        <rect x="20" y="20" width="8" height="8" rx="2" fill="white" opacity="0.9"/>
+      </svg>
+      <span class="ws-name">TaskFlow</span>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" title="Recolher sidebar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- User chip -->
+  <div class="sidebar-user">
+    <div class="user-av" id="sidebarAvatar">A</div>
+    <div class="user-info">
+      <span class="user-name" id="sidebarName">admin</span>
+      <span class="user-role">Workspace pessoal</span>
+    </div>
+    <button class="btn-icon" onclick="sair()" title="Sair">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    </button>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <!-- Quick nav -->
+  <nav class="sidebar-nav">
+    <button class="nav-item active" onclick="abrirVisaoGeral()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      <span>Visão Geral</span>
+    </button>
+    <button class="nav-item" onclick="abrirAgenda()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span>Agenda Semanal</span>
+    </button>
+  </nav>
+
+  <div class="sidebar-divider"></div>
+
+  <!-- Paineis -->
+  <div class="sidebar-section">
+    <div class="section-header">
+      <span>Meus Painéis</span>
+      <button class="btn-icon" id="btnNovoPainel" title="Novo painel">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <div id="painelList" class="painel-list">
+      <!-- Paineis inseridos por JS -->
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="storage-info">
+      <div class="storage-bar"><div class="storage-fill" id="storageFill"></div></div>
+      <span id="storageText">0 tarefas salvas</span>
+    </div>
+  </div>
+
+</aside>
+
+<!-- ═══════════════════════════════════════
+     MAIN CONTENT
+════════════════════════════════════════ -->
+<main class="main-content" id="mainContent">
+
+  <!-- ── VISÃO GERAL ── -->
+  <div id="viewGeral" class="view active">
+    <div class="page-header">
+      <div class="page-title-row">
+        <span class="page-emoji">🏠</span>
+        <h1 class="page-title">Visão Geral</h1>
+      </div>
+      <p class="page-subtitle">Resumo de todos os seus painéis e tarefas</p>
+    </div>
+
+    <div class="stats-grid" id="statsGrid">
+      <!-- Stats cards via JS -->
+    </div>
+
+    <div class="overview-grid" id="overviewGrid">
+      <!-- Paineis resumo via JS -->
+    </div>
+  </div>
+
+  <!-- ── AGENDA SEMANAL ── -->
+  <div id="viewAgenda" class="view">
+    <div class="page-header">
+      <div class="page-title-row">
+        <span class="page-emoji">📅</span>
+        <h1 class="page-title">Agenda Semanal</h1>
+      </div>
+      <p class="page-subtitle" id="agendaSubtitle">Semana atual</p>
+    </div>
+    <div class="week-grid" id="weekGrid">
+      <!-- Colunas dos dias via JS -->
+    </div>
+  </div>
+
+  <!-- ── PAINEL (view dinâmica) ── -->
+  <div id="viewPainel" class="view">
+    <!-- Conteúdo dinâmico via JS -->
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════════════
+     MODAIS
+════════════════════════════════════════ -->
+
+<!-- Modal Novo Painel -->
+<div class="modal-overlay" id="modalNovoPainel">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Novo Painel</h3>
+      <button class="btn-icon" onclick="fecharModal('modalNovoPainel')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-field">
+        <label>Nome do painel</label>
+        <input type="text" id="novoPainelNome" placeholder="Ex: Trabalho, Estudos, Pessoal…" maxlength="40">
+      </div>
+      <div class="form-field">
+        <label>Emoji (opcional)</label>
+        <div class="emoji-picker" id="emojiPicker">
+          <button class="emoji-opt selected" data-emoji="📋">📋</button>
+          <button class="emoji-opt" data-emoji="💼">💼</button>
+          <button class="emoji-opt" data-emoji="📚">📚</button>
+          <button class="emoji-opt" data-emoji="🎯">🎯</button>
+          <button class="emoji-opt" data-emoji="🏠">🏠</button>
+          <button class="emoji-opt" data-emoji="⚡">⚡</button>
+          <button class="emoji-opt" data-emoji="🌱">🌱</button>
+          <button class="emoji-opt" data-emoji="🔬">🔬</button>
+          <button class="emoji-opt" data-emoji="🎨">🎨</button>
+          <button class="emoji-opt" data-emoji="🏋️">🏋️</button>
+        </div>
+      </div>
+      <div class="form-field">
+        <label>Cor de destaque</label>
+        <div class="color-picker" id="colorPicker">
+          <button class="color-opt selected" data-color="#3b82f6" style="background:#3b82f6"></button>
+          <button class="color-opt" data-color="#8b5cf6" style="background:#8b5cf6"></button>
+          <button class="color-opt" data-color="#ec4899" style="background:#ec4899"></button>
+          <button class="color-opt" data-color="#f59e0b" style="background:#f59e0b"></button>
+          <button class="color-opt" data-color="#10b981" style="background:#10b981"></button>
+          <button class="color-opt" data-color="#ef4444" style="background:#ef4444"></button>
+          <button class="color-opt" data-color="#06b6d4" style="background:#06b6d4"></button>
+          <button class="color-opt" data-color="#6b7280" style="background:#6b7280"></button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="fecharModal('modalNovoPainel')">Cancelar</button>
+      <button class="btn-primary-sm" onclick="criarPainel()">Criar Painel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Painel -->
+<div class="modal-overlay" id="modalEditarPainel">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Editar Painel</h3>
+      <button class="btn-icon" onclick="fecharModal('modalEditarPainel')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editPainelId">
+      <div class="form-field">
+        <label>Nome</label>
+        <input type="text" id="editPainelNome" maxlength="40">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-danger-sm" onclick="excluirPainelConfirm()">Excluir painel</button>
+      <div style="flex:1"></div>
+      <button class="btn-ghost" onclick="fecharModal('modalEditarPainel')">Cancelar</button>
+      <button class="btn-primary-sm" onclick="salvarEdicaoPainel()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- ═══ MOBILE: Drawer lateral de painéis ═══ -->
+<div class="mobile-drawer-overlay" id="drawerOverlay" onclick="fecharDrawer()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <h3>📋 Meus Painéis</h3>
+    <button class="btn-icon" onclick="fecharDrawer()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-user">
+    <div class="user-av" id="drawerAvatar">A</div>
+    <div class="user-info">
+      <span class="user-name" id="drawerName">admin</span>
+      <span class="user-role">Workspace pessoal</span>
+    </div>
+  </div>
+  <div class="drawer-painel-list" id="drawerPainelList"></div>
+  <div class="drawer-footer">
+    <button class="btn-sm" style="flex:1;justify-content:center" onclick="fecharDrawer();abrirModal('modalNovoPainel')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Novo Painel
+    </button>
+    <button class="btn-logout-mobile" onclick="sair()">Sair</button>
+  </div>
+</div>
+
+<!-- ═══ MOBILE: Bottom Nav extra button (Painéis) ═══ -->
+<script>
+// Injeta botão de painéis na sidebar-nav para mobile
+(function() {
+  const nav = document.querySelector('.sidebar-nav');
+  const btn = document.createElement('button');
+  btn.className = 'mobile-panels-btn';
+  btn.id = 'btnMobilePaineis';
+  btn.innerHTML = `
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="15" y="14" width="6" height="7" rx="2"/></svg>
+    <span>Painéis</span>
+  `;
+  btn.addEventListener('click', abrirDrawer);
+  nav.appendChild(btn);
+})();
+</script>
+
+<script src="js/app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('[SW] Registrado:', r.scope))
+      .catch(e => console.warn('[SW] Erro:', e));
+  }
+</script>
+</body>
+</html>
