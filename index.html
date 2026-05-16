@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskFlow</title>
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,213 +11,46 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TaskFlow">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFCElEQVR4nO3dwXHbSBCG0aHKIViHDUBOTL5vLHu3E7MC2IOcg/awBRctixJJzADT/N8LQOxDfxiAYhUObTIPj88ve8/AOE/f7w97z3Bs12EsO63tG8XmH2zpec/WMWz2YRafS2wVwvAPsfisMTqEYX/c4tPTqBC6/1GLz0i9Q7jr+ccsP6P13rEuNVl89tDjNFh9Alh+9tJj91YFYPnZ29odvDoAy88s1uziVQFYfmZz7U5eHIDlZ1bX7OZFAVh+Znfpjp4dgOWnikt29awALD/VnLuzHwZg+anqnN3t+lMIqObdAFz9qe6jHT4ZgOXnVry3y26BiPZmAK7+3JpTO+0EINofAbj6c6ve2m0nANF+C8DVn1v3esedAET7FYCrPymOd90JQDQBEO2uNbc/5Fl23glANAEQTQBEEwDRDh6ASeYEIJoAiCYAogmAaAIg2qe9B+jhx7fP/+49w5evP//a8vN+fPv895af95YvX3/+s/cMa5X+GnSGxX9tdAgzLP5rlUMoews04/K3NnauGZe/tXnnOkfJAGZd/sWI+WZfstnnO6VcALMv/6LnnFWWq8qcx0oFUGX5Fz3mrbZU1eYtFQD0ViaAalf/xZq5q11NF5XmLhMAjCAAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiBamQC2fg9vL2vmrvr60UpzlwkARigVQLVToMe8la6mrdWbt1QArdWJoOecVZaqypzHygXQ2vwRjJhv9uWafb5TSgbQ2rwRjJxr1iWbda5zHB4en1/2HmKtGV6hunWQM7yKtPLiL24iALhW2Vsg6EEARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEO3T3gP0kPjT4MSfgI9Q+ufQMyz+a6NDmGHxX6scQtlboBmXv7Wxc824/K3NO9c5SgYw6/IvRsw3+5LNPt8p5QKYffkXPeesslxV5jxWKoAqy7/oMW+1pao2b6kAoLcyAVS7+i/WzF3tarqoNHeZAGAEARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0coEsPV7eHtZM3fV149WmrtMADBCqQCqnQI95q10NW2t3rylAmitTgQ956yyVFXmPFYugNbmj2DEfLMv1+zznVIygNbmjWDkXLMu2axznePw8Pj8svcQa83wCtWtg5zhVaSVF39xEwHAtcreAkEPAiCaAIgmAKIJgGh3T9/vD3sPAXt4+n5/cAIQTQBEEwDRBEC0u9b+fxjYexDY0rLzTgCiCYBovwJwG0SK4113AhDttwCcAty61zvuBCDaHwE4BbhVb+22E4BobwbgFODWnNppJwDRTgbgFOBWvLfL754AIqC6j3bYLRDRPgzAKUBV5+zuWSeACKjm3J09+xZIBFRxya5e9AwgAmZ36Y5e/BAsAmZ1zW5e9S2QCJjNtTt59degImAWa3Zx1f8BRMDe1u7g6n+EiYC99Ni9rsvrbTNsoedFt+tPIZwGjNZ7x4YtrNOAnkZdXIdfsYXAGqPvKja7ZRECl9jqdnrze3Yh8J6tnyN3fWgVA63t++XJdN/aiOK2zfZN4X8lB6m4oSITAwAAAABJRU5ErkJggg==">
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFCElEQVR4nO3dwXHbSBCG0aHKIViHDUBOTL5vLHu3E7MC2IOcg/awBRctixJJzADT/N8LQOxDfxiAYhUObTIPj88ve8/AOE/f7w97z3Bs12EsO63tG8XmH2zpec/WMWz2YRafS2wVwvAPsfisMTqEYX/c4tPTqBC6/1GLz0i9Q7jr+ccsP6P13rEuNVl89tDjNFh9Alh+9tJj91YFYPnZ29odvDoAy88s1uziVQFYfmZz7U5eHIDlZ1bX7OZFAVh+Znfpjp4dgOWnikt29awALD/VnLuzHwZg+anqnN3t+lMIqObdAFz9qe6jHT4ZgOXnVry3y26BiPZmAK7+3JpTO+0EINofAbj6c6ve2m0nANF+C8DVn1v3esedAET7FYCrPymOd90JQDQBEO2uNbc/5Fl23glANAEQTQBEEwDRDh6ASeYEIJoAiCYAogmAaAIg2qe9B+jhx7fP/+49w5evP//a8vN+fPv895af95YvX3/+s/cMa5X+GnSGxX9tdAgzLP5rlUMoews04/K3NnauGZe/tXnnOkfJAGZd/sWI+WZfstnnO6VcALMv/6LnnFWWq8qcx0oFUGX5Fz3mrbZU1eYtFQD0ViaAalf/xZq5q11NF5XmLhMAjCAAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiBamQC2fg9vL2vmrvr60UpzlwkARigVQLVToMe8la6mrdWbt1QArdWJoOecVZaqypzHygXQ2vwRjJhv9uWafb5TSgbQ2rwRjJxr1iWbda5zHB4en1/2HmKtGV6hunWQM7yKtPLiL24iALhW2Vsg6EEARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEO3T3gP0kPjT4MSfgI9Q+ufQMyz+a6NDmGHxX6scQtlboBmXv7Wxc824/K3NO9c5SgYw6/IvRsw3+5LNPt8p5QKYffkXPeesslxV5jxWKoAqy7/oMW+1pao2b6kAoLcyAVS7+i/WzF3tarqoNHeZAGAEARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0coEsPV7eHtZM3fV149WmrtMADBCqQCqnQI95q10NW2t3rylAmitTgQ956yyVFXmPFYugNbmj2DEfLMv1+zznVIygNbmjWDkXLMu2axznePw8Pj8svcQa83wCtWtg5zhVaSVF39xEwHAtcreAkEPAiCaAIgmAKIJgGh3T9/vD3sPAXt4+n5/cAIQTQBEEwDRBEC0u9b+fxjYexDY0rLzTgCiCYBovwJwG0SK4113AhDttwCcAty61zvuBCDaHwE4BbhVb+22E4BobwbgFODWnNppJwDRTgbgFOBWvLfL754AIqC6j3bYLRDRPgzAKUBV5+zuWSeACKjm3J09+xZIBFRxya5e9AwgAmZ36Y5e/BAsAmZ1zW5e9S2QCJjNtTt59degImAWa3Zx1f8BRMDe1u7g6n+EiYC99Ni9rsvrbTNsoedFt+tPIZwGjNZ7x4YtrNOAnkZdXIdfsYXAGqPvKja7ZRECl9jqdnrze3Yh8J6tnyN3fWgVA63t++XJdN/aiOK2zfZN4X8lB6m4oSITAwAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
-/* css/style.css — Login */
-
-*, *::before, *::after {
-  margin: 0; padding: 0; box-sizing: border-box;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0e1a;--surface:#111827;--border:rgba(255,255,255,0.07);
+  --border2:rgba(255,255,255,0.12);--accent:#2563eb;--accent-h:#3b82f6;
+  --text:#f1f5f9;--muted:#64748b;--muted2:#94a3b8;--danger:#ef4444;--success:#22c55e;
 }
-
-:root {
-  --bg: #0a0e1a;
-  --surface: #111827;
-  --surface2: #1a2235;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --accent: #2563eb;
-  --accent-h: #3b82f6;
-  --text: #f1f5f9;
-  --muted: #64748b;
-  --muted2: #94a3b8;
-  --danger: #ef4444;
-  --success: #22c55e;
-}
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Background */
-.login-bg {
-  position: fixed; inset: 0; z-index: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 10% 0%, rgba(37,99,235,0.14) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(37,99,235,0.08) 0%, transparent 55%);
-}
-
-.login-noise {
-  position: fixed; inset: 0; z-index: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px;
-}
-
-.login-center {
-  position: relative; z-index: 1;
-  width: 100%; max-width: 400px;
-  padding: 24px;
-  animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Brand */
-.login-brand {
-  display: flex; align-items: center; gap: 10px;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-
-.brand-name {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--text);
-}
-
-/* Card */
-.login-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 18px;
-  padding: 36px;
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.03) inset,
-    0 20px 60px rgba(0,0,0,0.45);
-}
-
-.login-card-header h1 {
-  font-family: 'Syne', sans-serif;
-  font-size: 22px; font-weight: 700;
-  letter-spacing: -0.3px;
-  margin-bottom: 6px;
-}
-
-.login-card-header p {
-  font-size: 13px; color: var(--muted2);
-  margin-bottom: 24px;
-  line-height: 1.5;
-}
-
-/* Demo hint */
-.demo-hint {
-  display: flex; align-items: center; gap: 7px;
-  padding: 10px 14px;
-  background: rgba(37,99,235,0.09);
-  border: 1px solid rgba(37,99,235,0.2);
-  border-radius: 10px;
-  font-size: 12px; color: #93c5fd;
-  margin-bottom: 20px;
-  line-height: 1.4;
-}
-
-/* Error */
-.error-box {
-  display: none; align-items: center; gap: 7px;
-  padding: 10px 14px;
-  background: rgba(239,68,68,0.1);
-  border: 1px solid rgba(239,68,68,0.22);
-  border-radius: 10px;
-  font-size: 13px; color: #fca5a5;
-  margin-bottom: 16px;
-}
-
-.error-box.show { display: flex; }
-
-/* Form fields */
-.form-field {
-  margin-bottom: 16px;
-}
-
-.form-field label {
-  display: block;
-  font-size: 11px; font-weight: 500;
-  color: var(--muted2);
-  text-transform: uppercase; letter-spacing: 0.7px;
-  margin-bottom: 8px;
-}
-
-.form-field input {
-  width: 100%;
-  padding: 11px 14px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-}
-
-.form-field input:focus {
-  border-color: var(--accent);
-  background: rgba(37,99,235,0.06);
-  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
-}
-
-.form-field input::placeholder { color: rgba(100,116,139,0.6); }
-
-/* Primary button */
-.btn-primary {
-  width: 100%;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 20px;
-  margin-top: 8px;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px; font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative; overflow: hidden;
-}
-
-.btn-primary::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(rgba(255,255,255,0.09), transparent);
-  pointer-events: none;
-}
-
-.btn-primary:hover {
-  background: var(--accent-h);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(37,99,235,0.35);
-}
-
-.btn-primary:active { transform: translateY(0); box-shadow: none; }
-
-/* Footer */
-.login-footer {
-  text-align: center;
-  margin-top: 18px;
-  font-size: 13px; color: var(--muted);
-}
-
-.login-footer a { color: #93c5fd; text-decoration: none; font-weight: 500; }
-.login-footer a:hover { text-decoration: underline; }
-
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.login-bg{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 70% 60% at 10% 0%,rgba(37,99,235,0.14) 0%,transparent 55%),radial-gradient(ellipse 50% 40% at 90% 100%,rgba(37,99,235,0.08) 0%,transparent 55%);}
+.login-center{position:relative;z-index:1;width:100%;max-width:400px;padding:24px;animation:fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.login-brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:32px;}
+.brand-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+.login-card{background:var(--surface);border:1px solid var(--border2);border-radius:18px;padding:36px;box-shadow:0 0 0 1px rgba(255,255,255,0.03) inset,0 20px 60px rgba(0,0,0,0.45);}
+.login-card h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-bottom:6px;}
+.login-card .sub{font-size:13px;color:var(--muted2);margin-bottom:24px;line-height:1.5;}
+.hint{display:flex;align-items:center;gap:7px;padding:10px 14px;background:rgba(37,99,235,0.09);border:1px solid rgba(37,99,235,0.2);border-radius:10px;font-size:12px;color:#93c5fd;margin-bottom:20px;}
+.err{display:none;align-items:center;gap:7px;padding:10px 14px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.22);border-radius:10px;font-size:13px;color:#fca5a5;margin-bottom:16px;}
+.err.show{display:flex;}
+.ff{margin-bottom:16px;}
+.ff label{display:block;font-size:11px;font-weight:500;color:var(--muted2);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px;}
+.ff input{width:100%;padding:11px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--border2);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;}
+.ff input:focus{border-color:var(--accent);background:rgba(37,99,235,0.06);box-shadow:0 0 0 3px rgba(37,99,235,0.15);}
+.ff input::placeholder{color:rgba(100,116,139,0.6);}
+.btn-primary{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;margin-top:8px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.35);}
+.btn-primary:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.login-footer{text-align:center;margin-top:18px;font-size:13px;color:var(--muted);}
+.login-footer a{color:#93c5fd;text-decoration:none;font-weight:500;}
+.tabs{display:flex;gap:4px;margin-bottom:20px;background:rgba(255,255,255,0.05);padding:4px;border-radius:10px;}
+.tab{flex:1;padding:8px;border:none;background:transparent;color:var(--muted2);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:7px;transition:all 0.15s;}
+.tab.active{background:var(--accent);color:#fff;}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
-<body class="login-page">
-
-<div class="login-bg"><div class="login-noise"></div></div>
-
+<body>
+<div class="login-bg"></div>
 <div class="login-center">
   <div class="login-brand">
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
@@ -230,94 +62,111 @@ body {
     </svg>
     <span class="brand-name">TaskFlow</span>
   </div>
-
   <div class="login-card">
-    <div class="login-card-header">
-      <h1>Entrar na sua conta</h1>
-      <p>Organize painéis e tarefas do seu dia a dia</p>
+    <div class="tabs">
+      <button class="tab active" id="tabLogin" onclick="setTab('login')">Entrar</button>
+      <button class="tab" id="tabCadastro" onclick="setTab('cadastro')">Criar conta</button>
     </div>
-
-    <div class="demo-hint">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
-      Demo: <strong>admin@gmail.com</strong> — senha: <strong>1234</strong>
-    </div>
-
-    <div class="error-box" id="errorBox">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-      <span id="errorText">Email ou senha inválidos.</span>
-    </div>
-
-    <div class="form-field">
-      <label>Email</label>
-      <input type="email" id="email" placeholder="seuemail@exemplo.com" autocomplete="email">
-    </div>
-    <div class="form-field">
-      <label>Senha</label>
-      <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password">
-    </div>
-
-    <button class="btn-primary" id="btnLogin" onclick="fazerLogin()">
-      <span>Entrar no TaskFlow</span>
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    <div class="err" id="errBox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span id="errText"></span></div>
+    <div class="ff"><label>Email</label><input type="email" id="email" placeholder="seuemail@exemplo.com" autocomplete="email"></div>
+    <div class="ff" id="ffNome" style="display:none"><label>Nome</label><input type="text" id="nome" placeholder="Seu nome"></div>
+    <div class="ff"><label>Senha</label><input type="password" id="senha" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn-primary" id="btnAcao" onclick="executar()">
+      <span id="btnLabel">Entrar no TaskFlow</span>
     </button>
-
-    <div class="login-footer">
-      Não tem conta? <a href="#">Criar conta grátis</a>
+    <div class="login-footer" id="footerLink">
+      Não tem conta? <a href="#" onclick="setTab('cadastro');return false;">Criar conta grátis</a>
     </div>
   </div>
 </div>
 
-<script>
-// js/login.js
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-const USERS = [
-  { email: 'admin@gmail.com', senha: '1234', nome: 'Admin' }
-];
+const firebaseConfig = {
+  apiKey: "AIzaSyD-orSgwdJhKzDFpCCYYSi7Cp6uoR_GGC8",
+  authDomain: "task-97699.firebaseapp.com",
+  projectId: "task-97699",
+  storageBucket: "task-97699.firebasestorage.app",
+  messagingSenderId: "165802588673",
+  appId: "1:165802588673:web:b34aef193a7df603279e00"
+};
 
-document.getElementById('senha').addEventListener('keydown', e => {
-  if (e.key === 'Enter') fazerLogin();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Se já logado, vai direto pro painel
+onAuthStateChanged(auth, user => {
+  if (user) window.location.href = './app.html';
 });
-document.getElementById('email').addEventListener('keydown', e => {
-  if (e.key === 'Enter') fazerLogin();
-});
 
-function fazerLogin() {
+let modoAtual = 'login';
+
+window.setTab = function(modo) {
+  modoAtual = modo;
+  document.getElementById('tabLogin').classList.toggle('active', modo === 'login');
+  document.getElementById('tabCadastro').classList.toggle('active', modo === 'cadastro');
+  document.getElementById('ffNome').style.display = modo === 'cadastro' ? 'block' : 'none';
+  document.getElementById('btnLabel').textContent = modo === 'login' ? 'Entrar no TaskFlow' : 'Criar minha conta';
+  document.getElementById('footerLink').style.display = modo === 'login' ? 'block' : 'none';
+  document.getElementById('errBox').classList.remove('show');
+};
+
+window.executar = async function() {
   const email = document.getElementById('email').value.trim();
   const senha = document.getElementById('senha').value;
-  const errBox = document.getElementById('errorBox');
+  const nome  = document.getElementById('nome').value.trim();
+  const btn   = document.getElementById('btnAcao');
+  const lbl   = document.getElementById('btnLabel');
 
-  if (!email || !senha) {
-    mostrarErro('Preencha todos os campos.');
-    return;
+  if (!email || !senha) { mostrarErro('Preencha todos os campos.'); return; }
+  if (modoAtual === 'cadastro' && !nome) { mostrarErro('Digite seu nome.'); return; }
+
+  btn.disabled = true;
+  lbl.innerHTML = '<div class="spinner"></div>';
+
+  try {
+    if (modoAtual === 'login') {
+      await signInWithEmailAndPassword(auth, email, senha);
+    } else {
+      const cred = await createUserWithEmailAndPassword(auth, email, senha);
+      await updateProfile(cred.user, { displayName: nome });
+    }
+    window.location.href = './app.html';
+  } catch(e) {
+    btn.disabled = false;
+    lbl.textContent = modoAtual === 'login' ? 'Entrar no TaskFlow' : 'Criar minha conta';
+    const msgs = {
+      'auth/invalid-credential': 'Email ou senha inválidos.',
+      'auth/user-not-found': 'Usuário não encontrado.',
+      'auth/wrong-password': 'Senha incorreta.',
+      'auth/email-already-in-use': 'Este email já está cadastrado.',
+      'auth/weak-password': 'Senha muito fraca. Use ao menos 6 caracteres.',
+      'auth/invalid-email': 'Email inválido.',
+      'auth/too-many-requests': 'Muitas tentativas. Tente novamente em alguns minutos.',
+    };
+    mostrarErro(msgs[e.code] || 'Erro: ' + e.message);
   }
-
-  const user = USERS.find(u => u.email === email && u.senha === senha);
-
-  if (user) {
-    errBox.classList.remove('show');
-    localStorage.setItem('tf_user', JSON.stringify({ nome: user.nome, email: user.email }));
-    const btn = document.getElementById('btnLogin');
-    btn.textContent = 'Entrando…';
-    btn.disabled = true;
-    setTimeout(() => { window.location.href = './app.html'; }, 300);
-  } else {
-    mostrarErro('Email ou senha inválidos. Tente novamente.');
-  }
-}
+};
 
 function mostrarErro(msg) {
-  const el = document.getElementById('errorText');
-  el.textContent = msg;
-  document.getElementById('errorBox').classList.add('show');
+  document.getElementById('errText').textContent = msg;
+  document.getElementById('errBox').classList.add('show');
 }
 
+// Enter para submeter
+['email','senha','nome'].forEach(id => {
+  document.getElementById(id)?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.executar();
+  });
+});
 </script>
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
-      .then(r => console.log('[SW] OK:', r.scope))
-      .catch(e => console.warn('[SW] Erro:', e));
-  }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
 </script>
 </body>
 </html>

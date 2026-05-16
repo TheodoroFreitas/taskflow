@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskFlow — Painel</title>
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -12,7 +11,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="TaskFlow">
 <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFCElEQVR4nO3dwXHbSBCG0aHKIViHDUBOTL5vLHu3E7MC2IOcg/awBRctixJJzADT/N8LQOxDfxiAYhUObTIPj88ve8/AOE/f7w97z3Bs12EsO63tG8XmH2zpec/WMWz2YRafS2wVwvAPsfisMTqEYX/c4tPTqBC6/1GLz0i9Q7jr+ccsP6P13rEuNVl89tDjNFh9Alh+9tJj91YFYPnZ29odvDoAy88s1uziVQFYfmZz7U5eHIDlZ1bX7OZFAVh+Znfpjp4dgOWnikt29awALD/VnLuzHwZg+anqnN3t+lMIqObdAFz9qe6jHT4ZgOXnVry3y26BiPZmAK7+3JpTO+0EINofAbj6c6ve2m0nANF+C8DVn1v3esedAET7FYCrPymOd90JQDQBEO2uNbc/5Fl23glANAEQTQBEEwDRDh6ASeYEIJoAiCYAogmAaAIg2qe9B+jhx7fP/+49w5evP//a8vN+fPv895af95YvX3/+s/cMa5X+GnSGxX9tdAgzLP5rlUMoews04/K3NnauGZe/tXnnOkfJAGZd/sWI+WZfstnnO6VcALMv/6LnnFWWq8qcx0oFUGX5Fz3mrbZU1eYtFQD0ViaAalf/xZq5q11NF5XmLhMAjCAAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiBamQC2fg9vL2vmrvr60UpzlwkARigVQLVToMe8la6mrdWbt1QArdWJoOecVZaqypzHygXQ2vwRjJhv9uWafb5TSgbQ2rwRjJxr1iWbda5zHB4en1/2HmKtGV6hunWQM7yKtPLiL24iALhW2Vsg6EEARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEO3T3gP0kPjT4MSfgI9Q+ufQMyz+a6NDmGHxX6scQtlboBmXv7Wxc824/K3NO9c5SgYw6/IvRsw3+5LNPt8p5QKYffkXPeesslxV5jxWKoAqy7/oMW+1pao2b6kAoLcyAVS7+i/WzF3tarqoNHeZAGAEARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0coEsPV7eHtZM3fV149WmrtMADBCqQCqnQI95q10NW2t3rylAmitTgQ956yyVFXmPFYugNbmj2DEfLMv1+zznVIygNbmjWDkXLMu2axznePw8Pj8svcQa83wCtWtg5zhVaSVF39xEwHAtcreAkEPAiCaAIgmAKIJgGh3T9/vD3sPAXt4+n5/cAIQTQBEEwDRBEC0u9b+fxjYexDY0rLzTgCiCYBovwJwG0SK4113AhDttwCcAty61zvuBCDaHwE4BbhVb+22E4BobwbgFODWnNppJwDRTgbgFOBWvLfL754AIqC6j3bYLRDRPgzAKUBV5+zuWSeACKjm3J09+xZIBFRxya5e9AwgAmZ36Y5e/BAsAmZ1zW5e9S2QCJjNtTt59degImAWa3Zx1f8BRMDe1u7g6n+EiYC99Ni9rsvrbTNsoedFt+tPIZwGjNZ7x4YtrNOAnkZdXIdfsYXAGqPvKja7ZRECl9jqdnrze3Yh8J6tnyN3fWgVA63t++XJdN/aiOK2zfZN4X8lB6m4oSITAwAAAABJRU5ErkJggg==">
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAFCElEQVR4nO3dwXHbSBCG0aHKIViHDUBOTL5vLHu3E7MC2IOcg/awBRctixJJzADT/N8LQOxDfxiAYhUObTIPj88ve8/AOE/f7w97z3Bs12EsO63tG8XmH2zpec/WMWz2YRafS2wVwvAPsfisMTqEYX/c4tPTqBC6/1GLz0i9Q7jr+ccsP6P13rEuNVl89tDjNFh9Alh+9tJj91YFYPnZ29odvDoAy88s1uziVQFYfmZz7U5eHIDlZ1bX7OZFAVh+Znfpjp4dgOWnikt29awALD/VnLuzHwZg+anqnN3t+lMIqObdAFz9qe6jHT4ZgOXnVry3y26BiPZmAK7+3JpTO+0EINofAbj6c6ve2m0nANF+C8DVn1v3esedAET7FYCrPymOd90JQDQBEO2uNbc/5Fl23glANAEQTQBEEwDRDh6ASeYEIJoAiCYAogmAaAIg2qe9B+jhx7fP/+49w5evP//a8vN+fPv895af95YvX3/+s/cMa5X+GnSGxX9tdAgzLP5rlUMoews04/K3NnauGZe/tXnnOkfJAGZd/sWI+WZfstnnO6VcALMv/6LnnFWWq8qcx0oFUGX5Fz3mrbZU1eYtFQD0ViaAalf/xZq5q11NF5XmLhMAjCAAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiCaAIgmAKIJgGgCIJoAiCYAogmAaAIgmgCIJgCiCYBoAiBamQC2fg9vL2vmrvr60UpzlwkARigVQLVToMe8la6mrdWbt1QArdWJoOecVZaqypzHygXQ2vwRjJhv9uWafb5TSgbQ2rwRjJxr1iWbda5zHB4en1/2HmKtGV6hunWQM7yKtPLiL24iALhW2Vsg6EEARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEO3T3gP0kPjT4MSfgI9Q+ufQMyz+a6NDmGHxX6scQtlboBmXv7Wxc824/K3NO9c5SgYw6/IvRsw3+5LNPt8p5QKYffkXPeesslxV5jxWKoAqy7/oMW+1pao2b6kAoLcyAVS7+i/WzF3tarqoNHeZAGAEARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0QRANAEQTQBEEwDRBEA0ARBNAEQTANEEQDQBEE0ARBMA0coEsPV7eHtZM3fV149WmrtMADBCqQCqnQI95q10NW2t3rylAmitTgQ956yyVFXmPFYugNbmj2DEfLMv1+zznVIygNbmjWDkXLMu2axznePw8Pj8svcQa83wCtWtg5zhVaSVF39xEwHAtcreAkEPAiCaAIgmAKIJgGh3T9/vD3sPAXt4+n5/cAIQTQBEEwDRBEC0u9b+fxjYexDY0rLzTgCiCYBovwJwG0SK4113AhDttwCcAty61zvuBCDaHwE4BbhVb+22E4BobwbgFODWnNppJwDRTgbgFOBWvLfL754AIqC6j3bYLRDRPgzAKUBV5+zuWSeACKjm3J09+xZIBFRxya5e9AwgAmZ36Y5e/BAsAmZ1zW5e9S2QCJjNtTt59degImAWa3Zx1f8BRMDe1u7g6n+EiYC99Ni9rsvrbTNsoedFt+tPIZwGjNZ7x4YtrNOAnkZdXIdfsYXAGqPvKja7ZRECl9jqdnrze3Yh8J6tnyN3fWgVA63t++XJdN/aiOK2zfZN4X8lB6m4oSITAwAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
@@ -1134,9 +1132,51 @@ select.form-inp option { background: #141b2d; }
   .mobile-drawer { display: none !important; }
 }
 
+/* Loading overlay */
+#loadingOverlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0a0e1a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px;
+  transition: opacity 0.4s;
+}
+#loadingOverlay.hide { opacity: 0; pointer-events: none; }
+.load-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid rgba(37,99,235,0.2);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.load-label { font-size: 13px; color: #64748b; }
+
+/* Sync indicator */
+.sync-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success);
+  display: inline-block;
+  margin-right: 4px;
+}
+.sync-dot.syncing { background: var(--warn); animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 </style>
 </head>
 <body>
+
+<!-- Loading -->
+<div id="loadingOverlay">
+  <svg width="40" height="40" viewBox="0 0 36 36" fill="none">
+    <rect width="36" height="36" rx="10" fill="#2563EB"/>
+    <rect x="9" y="9" width="7" height="7" rx="2" fill="white" opacity="0.9"/>
+    <rect x="20" y="9" width="7" height="7" rx="2" fill="white" opacity="0.5"/>
+    <rect x="9" y="20" width="7" height="7" rx="2" fill="white" opacity="0.5"/>
+    <rect x="20" y="20" width="7" height="7" rx="2" fill="white" opacity="0.9"/>
+  </svg>
+  <div class="load-spinner"></div>
+  <div class="load-label">Carregando TaskFlow…</div>
+</div>
 
 <aside class="sidebar" id="sidebar">
   <div class="ws-header">
@@ -1150,16 +1190,16 @@ select.form-inp option { background: #141b2d; }
       </svg>
       <span class="ws-name">TaskFlow</span>
     </div>
-    <button class="sidebar-toggle" id="sidebarToggle" title="Recolher sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
   </div>
 
   <div class="sidebar-user">
-    <div class="user-av" id="sidebarAvatar">A</div>
+    <div class="user-av" id="sidebarAvatar">?</div>
     <div class="user-info">
-      <span class="user-name" id="sidebarName">admin</span>
-      <span class="user-role">Workspace pessoal</span>
+      <span class="user-name" id="sidebarName">…</span>
+      <span class="user-role"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">sincronizado</span></span>
     </div>
     <button class="btn-icon" onclick="sair()" title="Sair">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
@@ -1184,7 +1224,7 @@ select.form-inp option { background: #141b2d; }
   <div class="sidebar-section">
     <div class="section-header">
       <span>Meus Painéis</span>
-      <button class="btn-icon" id="btnNovoPainel" title="Novo painel">
+      <button class="btn-icon" id="btnNovoPainel">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
     </div>
@@ -1194,7 +1234,7 @@ select.form-inp option { background: #141b2d; }
   <div class="sidebar-bottom">
     <div class="storage-info">
       <div class="storage-bar"><div class="storage-fill" id="storageFill"></div></div>
-      <span id="storageText">0 tarefas salvas</span>
+      <span id="storageText">carregando…</span>
     </div>
   </div>
 </aside>
@@ -1212,7 +1252,7 @@ select.form-inp option { background: #141b2d; }
   <div id="viewAgenda" class="view">
     <div class="page-header">
       <div class="page-title-row"><span class="page-emoji">📅</span><h1 class="page-title">Agenda Semanal</h1></div>
-      <p class="page-subtitle" id="agendaSubtitle">Semana atual</p>
+      <p class="page-subtitle">Semana atual</p>
     </div>
     <div class="week-grid" id="weekGrid"></div>
   </div>
@@ -1230,10 +1270,7 @@ select.form-inp option { background: #141b2d; }
       </button>
     </div>
     <div class="modal-body">
-      <div class="form-field">
-        <label>Nome do painel</label>
-        <input type="text" id="novoPainelNome" placeholder="Ex: Trabalho, Estudos, Pessoal…" maxlength="40">
-      </div>
+      <div class="form-field"><label>Nome do painel</label><input type="text" id="novoPainelNome" placeholder="Ex: Trabalho, Estudos…" maxlength="40"></div>
       <div class="form-field">
         <label>Emoji</label>
         <div class="emoji-picker" id="emojiPicker">
@@ -1250,7 +1287,7 @@ select.form-inp option { background: #141b2d; }
         </div>
       </div>
       <div class="form-field">
-        <label>Cor de destaque</label>
+        <label>Cor</label>
         <div class="color-picker" id="colorPicker">
           <button class="color-opt selected" data-color="#3b82f6" style="background:#3b82f6"></button>
           <button class="color-opt" data-color="#8b5cf6" style="background:#8b5cf6"></button>
@@ -1281,13 +1318,10 @@ select.form-inp option { background: #141b2d; }
     </div>
     <div class="modal-body">
       <input type="hidden" id="editPainelId">
-      <div class="form-field">
-        <label>Nome</label>
-        <input type="text" id="editPainelNome" maxlength="40">
-      </div>
+      <div class="form-field"><label>Nome</label><input type="text" id="editPainelNome" maxlength="40"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn-danger-sm" onclick="excluirPainelConfirm()">Excluir painel</button>
+      <button class="btn-danger-sm" onclick="excluirPainelConfirm()">Excluir</button>
       <div style="flex:1"></div>
       <button class="btn-ghost" onclick="fecharModal('modalEditarPainel')">Cancelar</button>
       <button class="btn-primary-sm" onclick="salvarEdicaoPainel()">Salvar</button>
@@ -1307,9 +1341,9 @@ select.form-inp option { background: #141b2d; }
     </button>
   </div>
   <div class="drawer-user">
-    <div class="user-av" id="drawerAvatar">A</div>
+    <div class="user-av" id="drawerAvatar">?</div>
     <div class="user-info">
-      <span class="user-name" id="drawerName">admin</span>
+      <span class="user-name" id="drawerName">…</span>
       <span class="user-role">Workspace pessoal</span>
     </div>
   </div>
@@ -1323,318 +1357,367 @@ select.form-inp option { background: #141b2d; }
   </div>
 </div>
 
-<script>
-// js/app.js
+<script type="module">
+import { initializeApp }   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import {
+  getFirestore, collection, doc,
+  onSnapshot, addDoc, updateDoc, deleteDoc,
+  query, orderBy, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
-// ═══════════════════════════════════════
-//  AUTH CHECK
-// ═══════════════════════════════════════
-const userRaw = localStorage.getItem('tf_user');
-if (!userRaw) { window.location.href = './index.html'; }
-const USER = JSON.parse(userRaw);
+// ── CONFIG ──
+const firebaseConfig = {
+  apiKey: "AIzaSyD-orSgwdJhKzDFpCCYYSi7Cp6uoR_GGC8",
+  authDomain: "task-97699.firebaseapp.com",
+  projectId: "task-97699",
+  storageBucket: "task-97699.firebasestorage.app",
+  messagingSenderId: "165802588673",
+  appId: "1:165802588673:web:b34aef193a7df603279e00"
+};
 
-document.getElementById('sidebarName').textContent = USER.nome;
-document.getElementById('sidebarAvatar').textContent = USER.nome[0].toUpperCase();
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
 
-function sair() {
-  localStorage.removeItem('tf_user');
-  window.location.href = './index.html';
-}
-
-// ═══════════════════════════════════════
-//  DATA
-// ═══════════════════════════════════════
-const STORAGE_KEY = 'tf_data_v2';
-
-function loadData() {
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (raw) return JSON.parse(raw);
-  // Seed com dados de exemplo
-  return {
-    paineis: [
-      { id: 1, nome: 'Trabalho', emoji: '💼', cor: '#8b5cf6', descricao: 'Tarefas profissionais', criadoEm: Date.now() },
-      { id: 2, nome: 'Estudos',  emoji: '📚', cor: '#10b981', descricao: 'Aprendizado e cursos', criadoEm: Date.now() },
-      { id: 3, nome: 'Pessoal',  emoji: '🏠', cor: '#f59e0b', descricao: 'Vida pessoal', criadoEm: Date.now() },
-    ],
-    tarefas: [
-      { id: 101, painelId: 1, texto: 'Revisar relatório Q2', dia: 'segunda', prioridade: 'alta', feita: false },
-      { id: 102, painelId: 1, texto: 'Reunião de equipe', dia: 'terca', prioridade: 'media', feita: false },
-      { id: 103, painelId: 2, texto: 'Assistir aula de React', dia: 'quarta', prioridade: 'baixa', feita: true },
-      { id: 104, painelId: 3, texto: 'Comprar mantimentos', dia: 'quinta', prioridade: 'media', feita: false },
-    ]
-  };
-}
-
-let data = loadData();
-
-function save() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-  atualizarStorageInfo();
-}
-
-// ═══════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════
+// ── STATE ──
+let USER = null;
+let data = { paineis: [], tarefas: [] };
 let viewAtual = 'geral';
 let painelAtivoId = null;
 let filtroAtivo = 'todos';
 let emojiSelecionado = '📋';
-let corSelecionada = '#3b82f6';
-
-// ═══════════════════════════════════════
-//  SIDEBAR
-// ═══════════════════════════════════════
+let corSelecionada   = '#3b82f6';
 let sidebarCollapsed = false;
+let unsubPaineis = null;
+let unsubTarefas = null;
 
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-  sidebarCollapsed = !sidebarCollapsed;
-  document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
+const DIAS_SEMANA = [
+  { id:'segunda', nome:'Segunda' },
+  { id:'terca',   nome:'Terça'   },
+  { id:'quarta',  nome:'Quarta'  },
+  { id:'quinta',  nome:'Quinta'  },
+  { id:'sexta',   nome:'Sexta'   },
+];
+const HOJE_IDX = (new Date().getDay() + 6) % 7;
+const HOJE_DIA = ['segunda','terca','quarta','quinta','sexta'][HOJE_IDX] || null;
+
+// ── SYNC INDICATOR ──
+function setSyncing(v) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (!dot) return;
+  dot.className = 'sync-dot' + (v ? ' syncing' : '');
+  lbl.textContent = v ? 'sincronizando…' : 'sincronizado';
+}
+
+// ── AUTH ──
+onAuthStateChanged(auth, user => {
+  if (!user) { window.location.href = './index.html'; return; }
+  USER = user;
+  const nome = user.displayName || user.email.split('@')[0];
+  document.getElementById('sidebarName').textContent = nome;
+  document.getElementById('sidebarAvatar').textContent = nome[0].toUpperCase();
+  document.getElementById('drawerName').textContent = nome;
+  document.getElementById('drawerAvatar').textContent = nome[0].toUpperCase();
+  iniciarListeners();
 });
 
-document.getElementById('btnNovoPainel').addEventListener('click', () => {
-  abrirModal('modalNovoPainel');
-});
+window.sair = async function() {
+  if (unsubPaineis) unsubPaineis();
+  if (unsubTarefas) unsubTarefas();
+  await signOut(auth);
+  window.location.href = './index.html';
+};
+
+// ── FIRESTORE PATHS ──
+function painelCol()  { return collection(db, 'users', USER.uid, 'paineis'); }
+function tarefaCol()  { return collection(db, 'users', USER.uid, 'tarefas'); }
+function painelDoc(id){ return doc(db, 'users', USER.uid, 'paineis', id); }
+function tarefaDoc(id){ return doc(db, 'users', USER.uid, 'tarefas', id); }
+
+// ── LISTENERS TEMPO REAL ──
+function iniciarListeners() {
+  setSyncing(true);
+  let loadedP = false, loadedT = false;
+
+  unsubPaineis = onSnapshot(query(painelCol(), orderBy('criadoEm')), snap => {
+    data.paineis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    loadedP = true;
+    if (loadedP && loadedT) finalizarCarregamento();
+    else renderTudo();
+  });
+
+  unsubTarefas = onSnapshot(query(tarefaCol(), orderBy('criadoEm')), snap => {
+    data.tarefas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    loadedT = true;
+    if (loadedP && loadedT) finalizarCarregamento();
+    else renderTudo();
+  });
+}
+
+function finalizarCarregamento() {
+  setSyncing(false);
+  const ov = document.getElementById('loadingOverlay');
+  ov.classList.add('hide');
+  setTimeout(() => ov.remove(), 500);
+  renderTudo();
+  atualizarStorageInfo();
+}
+
+// ── CRUD PAINEIS ──
+window.criarPainel = async function() {
+  const nome = document.getElementById('novoPainelNome').value.trim();
+  if (!nome) { document.getElementById('novoPainelNome').focus(); return; }
+  setSyncing(true);
+  const ref = await addDoc(painelCol(), {
+    nome, emoji: emojiSelecionado, cor: corSelecionada,
+    descricao: '', criadoEm: serverTimestamp()
+  });
+  setSyncing(false);
+  fecharModal('modalNovoPainel');
+  document.getElementById('novoPainelNome').value = '';
+  abrirPainel(ref.id);
+  toast('Painel "' + nome + '" criado! ✓', 's');
+};
+
+window.salvarEdicaoPainel = async function() {
+  const id   = document.getElementById('editPainelId').value;
+  const nome = document.getElementById('editPainelNome').value.trim();
+  if (!nome) return;
+  setSyncing(true);
+  await updateDoc(painelDoc(id), { nome });
+  setSyncing(false);
+  fecharModal('modalEditarPainel');
+  if (painelAtivoId === id) renderPainel();
+  if (viewAtual === 'geral') renderVisaoGeral();
+  toast('Painel atualizado.', 's');
+};
+
+window.excluirPainelConfirm = async function() {
+  const id = document.getElementById('editPainelId').value;
+  const p  = data.paineis.find(p => p.id === id);
+  if (!p) return;
+  const n  = data.tarefas.filter(t => t.painelId === id).length;
+  if (!confirm('Excluir "' + p.nome + '" e suas ' + n + ' tarefas?')) return;
+  setSyncing(true);
+  // Exclui tarefas do painel
+  await Promise.all(data.tarefas.filter(t => t.painelId === id).map(t => deleteDoc(tarefaDoc(t.id))));
+  await deleteDoc(painelDoc(id));
+  setSyncing(false);
+  fecharModal('modalEditarPainel');
+  abrirVisaoGeral();
+  toast('Painel excluído.', '');
+};
+
+window.renomearPainelInline = async function(id, nome) {
+  if (!nome.trim()) return;
+  setSyncing(true);
+  await updateDoc(painelDoc(id), { nome: nome.trim() });
+  setSyncing(false);
+};
+
+window.editarDescricao = async function(id, desc) {
+  setSyncing(true);
+  await updateDoc(painelDoc(id), { descricao: desc });
+  setSyncing(false);
+};
+
+// ── CRUD TAREFAS ──
+window.adicionarTarefa = async function() {
+  const input = document.getElementById('newTaskText');
+  const dia   = document.getElementById('newTaskDia')?.value;
+  const prio  = document.getElementById('newTaskPrio')?.value;
+  if (!input?.value.trim()) { toast('Digite uma descrição.', 'e'); input?.focus(); return; }
+  setSyncing(true);
+  await addDoc(tarefaCol(), {
+    painelId: painelAtivoId,
+    texto: input.value.trim(),
+    dia: dia || 'segunda',
+    prioridade: prio || 'media',
+    feita: false,
+    criadoEm: serverTimestamp()
+  });
+  setSyncing(false);
+  input.value = '';
+  toast('Tarefa adicionada! ✓', 's');
+};
+
+window.toggleTarefa = async function(id) {
+  const t = data.tarefas.find(t => t.id === id);
+  if (!t) return;
+  setSyncing(true);
+  await updateDoc(tarefaDoc(id), { feita: !t.feita });
+  setSyncing(false);
+};
+
+window.excluirTarefa = async function(id) {
+  setSyncing(true);
+  await deleteDoc(tarefaDoc(id));
+  setSyncing(false);
+  toast('Tarefa removida.', '');
+};
+
+window.setFiltro = function(f) { filtroAtivo = f; renderPainel(); };
+
+// ── RENDER ──
+function renderTudo() {
+  renderSidebar();
+  if (viewAtual === 'geral')   renderVisaoGeral();
+  else if (viewAtual === 'agenda') renderAgenda();
+  else if (viewAtual === 'painel') renderPainel();
+}
 
 function renderSidebar() {
   const list = document.getElementById('painelList');
   list.innerHTML = '';
-
   data.paineis.forEach(p => {
     const total = data.tarefas.filter(t => t.painelId === p.id).length;
     const div = document.createElement('div');
     div.className = 'painel-item' + (painelAtivoId === p.id && viewAtual === 'painel' ? ' active' : '');
-    div.innerHTML = `
-      <div class="painel-item-dot" style="background:${p.cor}"></div>
-      <span class="painel-item-icon">${p.emoji}</span>
-      <span class="painel-item-name">${esc(p.nome)}</span>
-      <span class="painel-item-count">${total}</span>
+    div.innerHTML = \`
+      <div class="painel-item-dot" style="background:\${p.cor}"></div>
+      <span class="painel-item-icon">\${p.emoji}</span>
+      <span class="painel-item-name">\${esc(p.nome)}</span>
+      <span class="painel-item-count">\${total}</span>
       <div class="painel-item-opts">
-        <button class="btn-icon" onclick="abrirEditarPainel(event,${p.id})" title="Editar">
+        <button class="btn-icon" onclick="abrirEditarPainel(event,'\${p.id}')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
-      </div>
-    `;
+      </div>\`;
     div.addEventListener('click', () => abrirPainel(p.id));
     list.appendChild(div);
   });
-
-  // Nav active state
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (viewAtual === 'geral') document.querySelectorAll('.nav-item')[0]?.classList.add('active');
+  if (viewAtual === 'geral')  document.querySelectorAll('.nav-item')[0]?.classList.add('active');
   if (viewAtual === 'agenda') document.querySelectorAll('.nav-item')[1]?.classList.add('active');
+  atualizarStorageInfo();
 }
 
-// ═══════════════════════════════════════
-//  VIEWS
-// ═══════════════════════════════════════
 function showView(id) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(id)?.classList.add('active');
 }
 
-// Visão Geral
-function abrirVisaoGeral() {
+window.abrirVisaoGeral = function() {
   viewAtual = 'geral'; painelAtivoId = null;
-  showView('viewGeral');
-  renderSidebar();
-  renderVisaoGeral();
-}
+  showView('viewGeral'); renderSidebar(); renderVisaoGeral();
+};
 
 function renderVisaoGeral() {
-  // Stats
-  const total = data.tarefas.length;
-  const feitas = data.tarefas.filter(t => t.feita).length;
-  const pendentes = total - feitas;
-  const alta = data.tarefas.filter(t => t.prioridade === 'alta' && !t.feita).length;
-
-  document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Total de tarefas</div><div class="stat-value c-blue">${total}</div></div>
-    <div class="stat-card"><div class="stat-label">Concluídas</div><div class="stat-value c-green">${feitas}</div></div>
-    <div class="stat-card"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">${pendentes}</div></div>
-    <div class="stat-card"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">${alta}</div></div>
-    <div class="stat-card"><div class="stat-label">Painéis</div><div class="stat-value c-blue">${data.paineis.length}</div></div>
-  `;
-
-  // Overview cards
+  const total    = data.tarefas.length;
+  const feitas   = data.tarefas.filter(t => t.feita).length;
+  const pendentes= total - feitas;
+  const alta     = data.tarefas.filter(t => t.prioridade === 'alta' && !t.feita).length;
+  document.getElementById('statsGrid').innerHTML = \`
+    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value c-blue">\${total}</div></div>
+    <div class="stat-card"><div class="stat-label">Concluídas</div><div class="stat-value c-green">\${feitas}</div></div>
+    <div class="stat-card"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">\${pendentes}</div></div>
+    <div class="stat-card"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">\${alta}</div></div>
+    <div class="stat-card"><div class="stat-label">Painéis</div><div class="stat-value c-blue">\${data.paineis.length}</div></div>
+  \`;
   const grid = document.getElementById('overviewGrid');
   if (data.paineis.length === 0) {
-    grid.innerHTML = `<div class="overview-empty">Nenhum painel criado ainda.<br>Clique em <strong>+</strong> na sidebar para criar seu primeiro painel.</div>`;
+    grid.innerHTML = \`<div class="overview-empty">Nenhum painel ainda.<br>Clique em <strong>+</strong> na sidebar para criar o primeiro.</div>\`;
     return;
   }
-
   grid.innerHTML = data.paineis.map(p => {
-    const ts = data.tarefas.filter(t => t.painelId === p.id);
+    const ts   = data.tarefas.filter(t => t.painelId === p.id);
     const done = ts.filter(t => t.feita).length;
-    const pct = ts.length > 0 ? Math.round((done / ts.length) * 100) : 0;
-    return `
-      <div class="overview-card" onclick="abrirPainel(${p.id})">
-        <div class="overview-card-top" style="background:${p.cor}"></div>
-        <div class="overview-card-body">
-          <div class="overview-card-title">
-            <span>${p.emoji}</span>
-            <span>${esc(p.nome)}</span>
-          </div>
-          <div class="overview-card-meta">
-            <span>${ts.length} tarefas</span>
-            <span>·</span>
-            <span>${done} concluídas</span>
-          </div>
-          <div class="overview-progress">
-            <div class="overview-progress-bar">
-              <div class="overview-progress-fill" style="width:${pct}%;background:${p.cor}"></div>
-            </div>
-            <div class="overview-progress-label">${pct}% concluído</div>
-          </div>
+    const pct  = ts.length > 0 ? Math.round((done/ts.length)*100) : 0;
+    return \`<div class="overview-card" onclick="abrirPainel('\${p.id}')">
+      <div class="overview-card-top" style="background:\${p.cor}"></div>
+      <div class="overview-card-body">
+        <div class="overview-card-title"><span>\${p.emoji}</span><span>\${esc(p.nome)}</span></div>
+        <div class="overview-card-meta"><span>\${ts.length} tarefas</span><span>·</span><span>\${done} concluídas</span></div>
+        <div class="overview-progress">
+          <div class="overview-progress-bar"><div class="overview-progress-fill" style="width:\${pct}%;background:\${p.cor}"></div></div>
+          <div class="overview-progress-label">\${pct}% concluído</div>
         </div>
-      </div>
-    `;
+      </div></div>\`;
   }).join('');
 }
 
-// Agenda
-function abrirAgenda() {
+window.abrirAgenda = function() {
   viewAtual = 'agenda'; painelAtivoId = null;
-  showView('viewAgenda');
-  renderSidebar();
-  renderAgenda();
-}
-
-const DIAS_SEMANA = [
-  { id: 'segunda', nome: 'Segunda' },
-  { id: 'terca',   nome: 'Terça' },
-  { id: 'quarta',  nome: 'Quarta' },
-  { id: 'quinta',  nome: 'Quinta' },
-  { id: 'sexta',   nome: 'Sexta' },
-];
-
-const HOJE_IDX = (new Date().getDay() + 6) % 7;
-const HOJE_DIA = ['segunda','terca','quarta','quinta','sexta'][HOJE_IDX] || null;
+  showView('viewAgenda'); renderSidebar(); renderAgenda();
+};
 
 function renderAgenda() {
-  const grid = document.getElementById('weekGrid');
-  grid.innerHTML = DIAS_SEMANA.map(d => {
-    const tarefasDia = data.tarefas.filter(t => t.dia === d.id);
+  document.getElementById('weekGrid').innerHTML = DIAS_SEMANA.map(d => {
+    const ts = data.tarefas.filter(t => t.dia === d.id);
     const isHoje = d.id === HOJE_DIA;
-
-    const cards = tarefasDia.length === 0
-      ? `<div class="week-empty">Sem tarefas</div>`
-      : tarefasDia.map(t => {
-          const painel = data.paineis.find(p => p.id === t.painelId);
-          return `
-            <div class="week-task${t.feita ? ' done' : ''}" id="wt-${t.id}">
-              <div class="wt-cb" onclick="toggleTarefa(${t.id})">
-                <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="1 5 4.5 9 11 1"/>
-                </svg>
-              </div>
-              <div class="wt-body">
-                <div class="wt-text">${esc(t.texto)}</div>
-                ${painel ? `<div class="wt-painel" style="color:${painel.cor}">${painel.emoji} ${esc(painel.nome)}</div>` : ''}
-              </div>
+    const cards = ts.length === 0
+      ? '<div class="week-empty">Sem tarefas</div>'
+      : ts.map(t => {
+          const p = data.paineis.find(p => p.id === t.painelId);
+          return \`<div class="week-task\${t.feita?' done':''}">
+            <div class="wt-cb" onclick="toggleTarefa('\${t.id}')">
+              <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="1 5 4.5 9 11 1"/></svg>
             </div>
-          `;
+            <div class="wt-body">
+              <div class="wt-text">\${esc(t.texto)}</div>
+              \${p?'<div class="wt-painel" style="color:'+p.cor+'">'+p.emoji+' '+esc(p.nome)+'</div>':''}
+            </div></div>\`;
         }).join('');
-
-    return `
-      <div class="week-col${isHoje ? ' today' : ''}">
-        <div class="week-col-header">
-          <span class="week-day-name">${d.nome}</span>
-          <div style="display:flex;gap:5px;align-items:center">
-            ${isHoje ? '<span class="today-chip">Hoje</span>' : ''}
-            <span class="week-col-count">${tarefasDia.length}</span>
-          </div>
+    return \`<div class="week-col\${isHoje?' today':''}">
+      <div class="week-col-header">
+        <span class="week-day-name">\${d.nome}</span>
+        <div style="display:flex;gap:5px;align-items:center">
+          \${isHoje?'<span class="today-chip">Hoje</span>':''}
+          <span class="week-col-count">\${ts.length}</span>
         </div>
-        <div class="week-col-tasks">${cards}</div>
       </div>
-    `;
+      <div class="week-col-tasks">\${cards}</div></div>\`;
   }).join('');
 }
 
-// Painel
-function abrirPainel(id) {
-  painelAtivoId = id;
-  viewAtual = 'painel';
-  filtroAtivo = 'todos';
-  showView('viewPainel');
-  renderSidebar();
-  renderPainel();
-}
+window.abrirPainel = function(id) {
+  painelAtivoId = id; viewAtual = 'painel'; filtroAtivo = 'todos';
+  showView('viewPainel'); renderSidebar(); renderPainel();
+};
 
 function renderPainel() {
-  const painel = data.paineis.find(p => p.id === painelAtivoId);
-  if (!painel) { abrirVisaoGeral(); return; }
-
-  const tarefas = data.tarefas.filter(t => t.painelId === painelAtivoId);
-  const feitas = tarefas.filter(t => t.feita).length;
-  const pendentes = tarefas.length - feitas;
-  const pct = tarefas.length > 0 ? Math.round((feitas / tarefas.length) * 100) : 0;
-
-  const view = document.getElementById('viewPainel');
-  view.innerHTML = `
+  const p = data.paineis.find(p => p.id === painelAtivoId);
+  if (!p) { abrirVisaoGeral(); return; }
+  const ts       = data.tarefas.filter(t => t.painelId === painelAtivoId);
+  const feitas   = ts.filter(t => t.feita).length;
+  const pendentes= ts.length - feitas;
+  const pct      = ts.length > 0 ? Math.round((feitas/ts.length)*100) : 0;
+  document.getElementById('viewPainel').innerHTML = \`
     <div class="painel-view-header">
       <div class="painel-view-title-row">
-        <span class="page-emoji">${painel.emoji}</span>
-        <input
-          class="painel-title-input"
-          value="${esc(painel.nome)}"
-          maxlength="40"
-          onchange="renomearPainelInline(${painel.id}, this.value)"
-        >
+        <span class="page-emoji">\${p.emoji}</span>
+        <input class="painel-title-input" value="\${esc(p.nome)}" maxlength="40" onchange="renomearPainelInline('\${p.id}',this.value)">
       </div>
       <div class="painel-actions">
-        <button class="btn-sm" onclick="abrirEditarPainel(event, ${painel.id})">
+        <button class="btn-sm" onclick="abrirEditarPainel(event,'\${p.id}')">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Editar
         </button>
       </div>
     </div>
-
-    <input
-      class="painel-desc-input"
-      value="${esc(painel.descricao || '')}"
-      placeholder="Adicione uma descrição…"
-      maxlength="100"
-      onchange="editarDescricao(${painel.id}, this.value)"
-    >
-
+    <input class="painel-desc-input" value="\${esc(p.descricao||'')}" placeholder="Adicione uma descrição…" maxlength="100" onchange="editarDescricao('\${p.id}',this.value)">
     <div class="painel-stats-row">
-      <div class="painel-stat">
-        <span class="painel-stat-label">Total</span>
-        <span class="painel-stat-val" style="color:#60a5fa">${tarefas.length}</span>
-      </div>
+      <div class="painel-stat"><span class="painel-stat-label">Total</span><span class="painel-stat-val" style="color:#60a5fa">\${ts.length}</span></div>
       <div class="painel-stat-divider"></div>
-      <div class="painel-stat">
-        <span class="painel-stat-label">Feitas</span>
-        <span class="painel-stat-val" style="color:#86efac">${feitas}</span>
-      </div>
+      <div class="painel-stat"><span class="painel-stat-label">Feitas</span><span class="painel-stat-val" style="color:#86efac">\${feitas}</span></div>
       <div class="painel-stat-divider"></div>
-      <div class="painel-stat">
-        <span class="painel-stat-label">Pendentes</span>
-        <span class="painel-stat-val" style="color:#fcd34d">${pendentes}</span>
-      </div>
+      <div class="painel-stat"><span class="painel-stat-label">Pendentes</span><span class="painel-stat-val" style="color:#fcd34d">\${pendentes}</span></div>
       <div class="painel-stat-divider"></div>
       <div class="painel-progress-wrap">
-        <div class="painel-progress-track">
-          <div class="painel-progress-bar" style="width:${pct}%;background:${painel.cor}"></div>
-        </div>
-        <div style="font-size:11px;color:var(--text3);margin-top:3px">${pct}% concluído</div>
+        <div class="painel-progress-track"><div class="painel-progress-bar" style="width:\${pct}%;background:\${p.cor}"></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">\${pct}% concluído</div>
       </div>
     </div>
-
-    <!-- Form adicionar -->
     <div class="add-task-form">
-      <div class="ff grow">
-        <label>Nova Tarefa</label>
-        <input class="form-inp" type="text" id="newTaskText" placeholder="O que precisa ser feito?" maxlength="120">
-      </div>
-      <div class="ff">
-        <label>Dia</label>
+      <div class="ff grow"><label>Nova Tarefa</label><input class="form-inp" type="text" id="newTaskText" placeholder="O que precisa ser feito?" maxlength="120"></div>
+      <div class="ff"><label>Dia</label>
         <select class="form-inp" id="newTaskDia">
-          ${DIAS_SEMANA.map(d => `<option value="${d.id}"${d.id === HOJE_DIA ? ' selected' : ''}>${d.nome}</option>`).join('')}
+          \${DIAS_SEMANA.map(d=>'<option value="'+d.id+'"'+(d.id===HOJE_DIA?' selected':'')+'>'+d.nome+'</option>').join('')}
         </select>
       </div>
-      <div class="ff">
-        <label>Prioridade</label>
+      <div class="ff"><label>Prioridade</label>
         <select class="form-inp" id="newTaskPrio">
           <option value="baixa">🟢 Baixa</option>
           <option value="media" selected>🟡 Média</option>
@@ -1648,357 +1731,152 @@ function renderPainel() {
         </button>
       </div>
     </div>
-
-    <!-- Filtros -->
     <div class="filter-bar">
-      <button class="ftab${filtroAtivo === 'todos' ? ' active' : ''}" onclick="setFiltro('todos')">Todas</button>
-      <button class="ftab${filtroAtivo === 'pendente' ? ' active' : ''}" onclick="setFiltro('pendente')">Pendentes</button>
-      <button class="ftab${filtroAtivo === 'feita' ? ' active' : ''}" onclick="setFiltro('feita')">Concluídas</button>
-      <button class="ftab${filtroAtivo === 'alta' ? ' active' : ''}" onclick="setFiltro('alta')">Alta prioridade</button>
-      ${DIAS_SEMANA.map(d => `<button class="ftab${filtroAtivo === d.id ? ' active' : ''}" onclick="setFiltro('${d.id}')">${d.nome}</button>`).join('')}
+      \${['todos','pendente','feita','alta'].map(f=>'<button class="ftab'+(filtroAtivo===f?' active':'')+'" onclick="setFiltro(''+f+'')">'+{todos:'Todas',pendente:'Pendentes',feita:'Concluídas',alta:'Alta prioridade'}[f]+'</button>').join('')}
+      \${DIAS_SEMANA.map(d=>'<button class="ftab'+(filtroAtivo===d.id?' active':'')+'" onclick="setFiltro(''+d.id+'')">'+d.nome+'</button>').join('')}
     </div>
-
-    <!-- Tarefas por dia -->
-    <div id="taskSections">
-      ${renderTaskSections(painelAtivoId)}
-    </div>
-  `;
-
-  // Enter para adicionar
+    <div id="taskSections">\${renderTaskSections(p.id)}</div>
+  \`;
   document.getElementById('newTaskText')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') adicionarTarefa();
   });
 }
 
 function renderTaskSections(painelId) {
-  const painel = data.paineis.find(p => p.id === painelId);
-  let tarefas = data.tarefas.filter(t => t.painelId === painelId);
-
-  // Filtro
-  if (filtroAtivo === 'pendente') tarefas = tarefas.filter(t => !t.feita);
-  else if (filtroAtivo === 'feita') tarefas = tarefas.filter(t => t.feita);
-  else if (filtroAtivo === 'alta') tarefas = tarefas.filter(t => t.prioridade === 'alta');
-  else if (DIAS_SEMANA.some(d => d.id === filtroAtivo)) tarefas = tarefas.filter(t => t.dia === filtroAtivo);
-
-  // Agrupa por dia
+  const p = data.paineis.find(p => p.id === painelId);
+  let ts = data.tarefas.filter(t => t.painelId === painelId);
+  if (filtroAtivo === 'pendente') ts = ts.filter(t => !t.feita);
+  else if (filtroAtivo === 'feita') ts = ts.filter(t => t.feita);
+  else if (filtroAtivo === 'alta') ts = ts.filter(t => t.prioridade === 'alta');
+  else if (DIAS_SEMANA.some(d => d.id === filtroAtivo)) ts = ts.filter(t => t.dia === filtroAtivo);
+  if (ts.length === 0 && filtroAtivo !== 'todos') return '<div class="empty-tasks">Nenhuma tarefa neste filtro.</div>';
   const grupos = DIAS_SEMANA.map(d => ({
-    dia: d,
-    tarefas: tarefas.filter(t => t.dia === d.id)
+    dia: d, tarefas: ts.filter(t => t.dia === d.id)
   })).filter(g => g.tarefas.length > 0 || filtroAtivo === 'todos' || filtroAtivo === g.dia.id);
-
-  if (tarefas.length === 0 && filtroAtivo !== 'todos') {
-    return `<div class="empty-tasks">Nenhuma tarefa neste filtro.</div>`;
-  }
-
-  return grupos.map(g => `
+  return grupos.map(g => \`
     <div class="task-section">
       <div class="task-section-header">
-        <span class="task-section-label">${g.dia.nome}</span>
-        ${g.dia.id === HOJE_DIA ? '<span class="today-chip">Hoje</span>' : ''}
-        <span class="task-section-count">${g.tarefas.length}</span>
+        <span class="task-section-label">\${g.dia.nome}</span>
+        \${g.dia.id === HOJE_DIA ? '<span class="today-chip">Hoje</span>' : ''}
+        <span class="task-section-count">\${g.tarefas.length}</span>
       </div>
       <div class="tasks-list">
-        ${g.tarefas.length === 0
-          ? `<div class="empty-tasks">Sem tarefas para ${g.dia.nome.toLowerCase()}</div>`
-          : g.tarefas.map(t => taskCardHTML(t, painel)).join('')
+        \${g.tarefas.length === 0
+          ? '<div class="empty-tasks">Sem tarefas para '+g.dia.nome.toLowerCase()+'</div>'
+          : g.tarefas.map(t => \`
+            <div class="task-card\${t.feita?' done':''}">
+              <div class="task-cb" onclick="toggleTarefa('\${t.id}')">
+                <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="1 5 4.5 9 11 1"/></svg>
+              </div>
+              <div class="task-body">
+                <div class="task-text">\${esc(t.texto)}</div>
+                <div class="task-meta">
+                  <span class="p-badge \${t.prioridade}">\${t.prioridade}</span>
+                  <span class="day-badge">\${DIAS_SEMANA.find(d=>d.id===t.dia)?.nome||t.dia}</span>
+                </div>
+              </div>
+              <button class="btn-del" onclick="excluirTarefa('\${t.id}')">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>\`).join('')
         }
       </div>
-    </div>
-  `).join('');
+    </div>\`).join('');
 }
 
-function taskCardHTML(t, painel) {
-  return `
-    <div class="task-card${t.feita ? ' done' : ''}" id="tc-${t.id}">
-      <div class="task-cb" onclick="toggleTarefa(${t.id})">
-        <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="1 5 4.5 9 11 1"/>
-        </svg>
-      </div>
-      <div class="task-body">
-        <div class="task-text">${esc(t.texto)}</div>
-        <div class="task-meta">
-          <span class="p-badge ${t.prioridade}">${t.prioridade}</span>
-          <span class="day-badge">${DIAS_SEMANA.find(d => d.id === t.dia)?.nome || t.dia}</span>
-        </div>
-      </div>
-      <button class="btn-del" onclick="excluirTarefa(${t.id})" title="Excluir">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      </button>
-    </div>
-  `;
-}
-
-// ═══════════════════════════════════════
-//  TAREFAS
-// ═══════════════════════════════════════
-function adicionarTarefa() {
-  const input = document.getElementById('newTaskText');
-  const dia = document.getElementById('newTaskDia')?.value;
-  const prio = document.getElementById('newTaskPrio')?.value;
-
-  if (!input || !input.value.trim()) {
-    toast('Digite uma descrição para a tarefa.', 'e');
-    input?.focus();
-    return;
-  }
-
-  data.tarefas.push({
-    id: Date.now(),
-    painelId: painelAtivoId,
-    texto: input.value.trim(),
-    dia: dia || 'segunda',
-    prioridade: prio || 'media',
-    feita: false,
-    criadoEm: Date.now()
-  });
-
-  save();
-  input.value = '';
-  renderPainel();
-  renderSidebar();
-  toast('Tarefa adicionada! ✓', 's');
-}
-
-function toggleTarefa(id) {
-  const t = data.tarefas.find(t => t.id === id);
-  if (!t) return;
-  t.feita = !t.feita;
-  save();
-  // Re-render da view atual
-  if (viewAtual === 'painel') renderPainel();
-  else if (viewAtual === 'agenda') renderAgenda();
-  else renderVisaoGeral();
-}
-
-function excluirTarefa(id) {
-  data.tarefas = data.tarefas.filter(t => t.id !== id);
-  save();
-  renderPainel();
-  renderSidebar();
-  toast('Tarefa removida.', '');
-}
-
-function setFiltro(f) {
-  filtroAtivo = f;
-  renderPainel();
-}
-
-// ═══════════════════════════════════════
-//  PAINEIS
-// ═══════════════════════════════════════
-function criarPainel() {
-  const nome = document.getElementById('novoPainelNome').value.trim();
-  if (!nome) {
-    document.getElementById('novoPainelNome').focus();
-    return;
-  }
-
-  const novoPainel = {
-    id: Date.now(),
-    nome,
-    emoji: emojiSelecionado,
-    cor: corSelecionada,
-    descricao: '',
-    criadoEm: Date.now()
-  };
-
-  data.paineis.push(novoPainel);
-  save();
-  fecharModal('modalNovoPainel');
-  document.getElementById('novoPainelNome').value = '';
-  renderSidebar();
-  abrirPainel(novoPainel.id);
-  toast(`Painel "${nome}" criado! ✓`, 's');
-}
-
-function abrirEditarPainel(e, id) {
+// ── MODAIS ──
+window.abrirModal  = id => document.getElementById(id).classList.add('open');
+window.fecharModal = id => document.getElementById(id).classList.remove('open');
+window.abrirEditarPainel = function(e, id) {
   e.stopPropagation();
   const p = data.paineis.find(p => p.id === id);
   if (!p) return;
-  document.getElementById('editPainelId').value = id;
+  document.getElementById('editPainelId').value  = id;
   document.getElementById('editPainelNome').value = p.nome;
   abrirModal('modalEditarPainel');
-}
-
-function salvarEdicaoPainel() {
-  const id = parseInt(document.getElementById('editPainelId').value);
-  const nome = document.getElementById('editPainelNome').value.trim();
-  if (!nome) return;
-  const p = data.paineis.find(p => p.id === id);
-  if (p) { p.nome = nome; save(); }
-  fecharModal('modalEditarPainel');
-  renderSidebar();
-  if (painelAtivoId === id) renderPainel();
-  if (viewAtual === 'geral') renderVisaoGeral();
-  toast('Painel atualizado.', 's');
-}
-
-function excluirPainelConfirm() {
-  const id = parseInt(document.getElementById('editPainelId').value);
-  const p = data.paineis.find(p => p.id === id);
-  if (!p) return;
-  if (!confirm(`Excluir o painel "${p.nome}" e todas as suas ${data.tarefas.filter(t => t.painelId === id).length} tarefas?`)) return;
-  data.paineis = data.paineis.filter(p => p.id !== id);
-  data.tarefas = data.tarefas.filter(t => t.painelId !== id);
-  save();
-  fecharModal('modalEditarPainel');
-  abrirVisaoGeral();
-  toast('Painel excluído.', '');
-}
-
-function renomearPainelInline(id, nome) {
-  const p = data.paineis.find(p => p.id === id);
-  if (p && nome.trim()) { p.nome = nome.trim(); save(); renderSidebar(); }
-}
-
-function editarDescricao(id, desc) {
-  const p = data.paineis.find(p => p.id === id);
-  if (p) { p.descricao = desc; save(); }
-}
-
-// ═══════════════════════════════════════
-//  MODAIS
-// ═══════════════════════════════════════
-function abrirModal(id) {
-  document.getElementById(id).classList.add('open');
-}
-
-function fecharModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-
-// Fecha modal clicando fora
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('open');
-  });
+};
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); });
 });
-
-// Emoji picker
 document.getElementById('emojiPicker').addEventListener('click', e => {
-  const btn = e.target.closest('.emoji-opt');
-  if (!btn) return;
-  document.querySelectorAll('.emoji-opt').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  emojiSelecionado = btn.dataset.emoji;
+  const b = e.target.closest('.emoji-opt'); if (!b) return;
+  document.querySelectorAll('.emoji-opt').forEach(x => x.classList.remove('selected'));
+  b.classList.add('selected'); emojiSelecionado = b.dataset.emoji;
 });
-
-// Color picker
 document.getElementById('colorPicker').addEventListener('click', e => {
-  const btn = e.target.closest('.color-opt');
-  if (!btn) return;
-  document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('selected'));
-  btn.classList.add('selected');
-  corSelecionada = btn.dataset.color;
+  const b = e.target.closest('.color-opt'); if (!b) return;
+  document.querySelectorAll('.color-opt').forEach(x => x.classList.remove('selected'));
+  b.classList.add('selected'); corSelecionada = b.dataset.color;
 });
-
-// Enter no modal criar painel
 document.getElementById('novoPainelNome').addEventListener('keydown', e => {
   if (e.key === 'Enter') criarPainel();
   if (e.key === 'Escape') fecharModal('modalNovoPainel');
 });
+document.getElementById('btnNovoPainel').addEventListener('click', () => abrirModal('modalNovoPainel'));
 
-// ═══════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════
-let toastTimer;
-function toast(msg, tipo) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show ' + (tipo || '');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = 'toast'; }, 3000);
-}
+// ── SIDEBAR TOGGLE ──
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+  sidebarCollapsed = !sidebarCollapsed;
+  document.getElementById('sidebar').classList.toggle('collapsed', sidebarCollapsed);
+});
 
-// ═══════════════════════════════════════
-//  STORAGE INFO
-// ═══════════════════════════════════════
-function atualizarStorageInfo() {
-  const total = data.tarefas.length;
-  document.getElementById('storageText').textContent = `${total} tarefa${total !== 1 ? 's' : ''} salva${total !== 1 ? 's' : ''}`;
-  const pct = Math.min(100, (total / 200) * 100);
-  document.getElementById('storageFill').style.width = pct + '%';
-}
-
-// ═══════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
-}
-
-// ═══════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════
-renderSidebar();
-atualizarStorageInfo();
-abrirVisaoGeral();
-
-// ═══════════════════════════════════════
-//  MOBILE DRAWER
-// ═══════════════════════════════════════
-function abrirDrawer() {
-  renderDrawer();
-  document.getElementById('mobileDrawer').classList.add('open');
-  document.getElementById('drawerOverlay').classList.add('open');
-}
-
-function fecharDrawer() {
-  document.getElementById('mobileDrawer').classList.remove('open');
-  document.getElementById('drawerOverlay').classList.remove('open');
-}
-
-function renderDrawer() {
-  // Atualiza user info
-  document.getElementById('drawerAvatar').textContent = USER.nome[0].toUpperCase();
-  document.getElementById('drawerName').textContent = USER.nome;
-
+// ── MOBILE DRAWER ──
+window.abrirDrawer = function() {
   const list = document.getElementById('drawerPainelList');
-  if (!list) return;
-
   list.innerHTML = data.paineis.length === 0
     ? '<div style="padding:16px;color:var(--text3);font-size:13px;text-align:center">Nenhum painel ainda</div>'
     : data.paineis.map(p => {
         const total = data.tarefas.filter(t => t.painelId === p.id).length;
-        return `
-          <div class="painel-item${painelAtivoId === p.id && viewAtual === 'painel' ? ' active' : ''}"
-               onclick="fecharDrawer();abrirPainel(${p.id})">
-            <div class="painel-item-dot" style="background:${p.cor}"></div>
-            <span class="painel-item-icon">${p.emoji}</span>
-            <span class="painel-item-name">${esc(p.nome)}</span>
-            <span class="painel-item-count">${total}</span>
-          </div>
-        `;
+        return \`<div class="painel-item" onclick="fecharDrawer();abrirPainel('\${p.id}')">
+          <div class="painel-item-dot" style="background:\${p.cor}"></div>
+          <span class="painel-item-icon">\${p.emoji}</span>
+          <span class="painel-item-name">\${esc(p.nome)}</span>
+          <span class="painel-item-count">\${total}</span></div>\`;
       }).join('');
-}
+  document.getElementById('mobileDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+};
+window.fecharDrawer = function() {
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+};
 
-</script>
-<script>
-// Injeta botão Painéis na bottom nav mobile
+// Injeta botão Painéis na bottom nav
 (function() {
   const nav = document.querySelector('.sidebar-nav');
   const btn = document.createElement('button');
   btn.className = 'mobile-panels-btn';
-  btn.id = 'btnMobilePaineis';
-  btn.innerHTML = `
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="15" y="14" width="6" height="7" rx="2"/></svg>
-    <span>Painéis</span>`;
+  btn.innerHTML = \`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="15" y="14" width="6" height="7" rx="2"/></svg><span>Painéis</span>\`;
   btn.addEventListener('click', abrirDrawer);
   nav.appendChild(btn);
 })();
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js')
-    .then(r => console.log('[SW] OK:', r.scope))
-    .catch(e => console.warn('[SW] Erro:', e));
+// ── TOAST ──
+let toastTimer;
+window.toast = function(msg, tipo) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (tipo||'');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, 3000);
+};
+
+// ── STORAGE INFO ──
+function atualizarStorageInfo() {
+  const total = data.tarefas.length;
+  const el = document.getElementById('storageText');
+  if (el) el.textContent = total + ' tarefa' + (total!==1?'s':'') + ' na nuvem ☁️';
+  const fill = document.getElementById('storageFill');
+  if (fill) fill.style.width = Math.min(100,(total/200)*100) + '%';
 }
+
+// ── UTIL ──
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
 </script>
 </body>
 </html>

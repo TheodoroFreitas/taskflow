@@ -1,6 +1,5 @@
-// sw.js — TaskFlow Service Worker
-const CACHE = 'taskflow-v1';
-const URLS  = ['./','./index.html','./app.html','./sw.js','./manifest.json'];
+const CACHE = 'taskflow-v2';
+const URLS  = ['./','./index.html','./app.html','./manifest.json'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)).then(() => self.skipWaiting()));
 });
@@ -9,11 +8,7 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).then(res => {
-    if (res && res.status === 200) {
-      const clone = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, clone));
-    }
-    return res;
-  }).catch(() => caches.match('./index.html'))));
+  const url = new URL(e.request.url);
+  if (url.hostname.includes('firebase') || url.hostname.includes('google') || url.hostname.includes('gstatic')) return;
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./index.html'))));
 });
