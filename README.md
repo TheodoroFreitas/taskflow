@@ -1,73 +1,60 @@
-# TaskFlow — Sistema de Tarefas
+# TaskFlow
 
-## Como rodar no PC
+Aplicativo web/PWA de gerenciamento de tarefas com autenticacao Firebase e dados por usuario no Firestore.
 
-### Opção 1 — Abrir diretamente (mais simples)
-Basta abrir o arquivo `index.html` no navegador.
-Funciona no Chrome, Edge, Firefox e outros navegadores modernos.
+## Como rodar localmente
 
-### Opção 2 — Servidor local (recomendado)
-Se você tem Python instalado:
+Recomendado usar um servidor local para evitar problemas com modulos ES, Firebase e service worker:
 
 ```bash
-# Navegar até a pasta do projeto
-cd taskflow-app
-
-# Python 3
 python -m http.server 3000
-
-# Python 2
-python -m SimpleHTTPServer 3000
 ```
 
-Depois acesse: http://localhost:3000
+Depois acesse:
 
-Se tiver Node.js:
-```bash
-npx serve .
+```text
+http://localhost:3000
 ```
 
----
+## Estrutura principal
 
-## Estrutura de arquivos
-
-```
-taskflow-app/
-├── index.html        ← Tela de login
-├── app.html          ← Painel principal (abre após login)
-├── css/
-│   ├── style.css     ← Estilos do login
-│   └── app.css       ← Estilos do painel
-└── js/
-    ├── login.js      ← Lógica de autenticação
-    └── app.js        ← Lógica principal do app
+```text
+index.html        Tela de login e cadastro Firebase
+app.html          Painel principal do usuario
+sw.js             Service worker do PWA
+manifest.json     Manifesto do app
+firestore.rules   Regras recomendadas para o Firestore
 ```
 
----
+## Autenticacao
 
-## Credenciais de acesso
+O app usa Firebase Authentication por email e senha. Nao ha usuario ou senha padrao no codigo.
 
-| Email             | Senha |
-|-------------------|-------|
-| admin@gmail.com   | 1234  |
+Funcionalidades atuais:
 
----
+- Login com mensagem generica para reduzir enumeracao de contas.
+- Cadastro com validacao de email, nome, senha forte e confirmacao de senha.
+- Bloqueio local temporario apos muitas tentativas de login.
+- Painel de conta para alterar nome, email e senha.
+- Envio de email de verificacao.
 
-## Funcionalidades
+## Firestore
 
-- **Sidebar estilo Notion** com painéis criáveis
-- **Criar painéis** com nome, emoji e cor personalizados
-- **Visão Geral** — resumo de todos os painéis e estatísticas
-- **Agenda Semanal** — todas as tarefas organizadas por dia da semana
-- **Tarefas** com prioridade (Alta / Média / Baixa) e dia da semana
-- **Filtros** por status, prioridade e dia
-- **Renomear** painéis e tarefas diretamente na tela
-- **Persistência** com localStorage — dados salvos mesmo fechando o navegador
-- Sidebar recolhível
+Os dados sao salvos em:
 
----
+```text
+users/{uid}/paineis
+users/{uid}/tarefas
+```
 
-## Dados de exemplo
+Use `firestore.rules` como base de seguranca no console/projeto Firebase para garantir que cada usuario acesse somente os proprios dados.
 
-O app já vem com 3 painéis e 4 tarefas de exemplo para demonstração.
-Todos os dados são salvos localmente no navegador (localStorage).
+## Tarefas
+
+O painel suporta:
+
+- Paineis por area/projeto.
+- Tarefas com dia, prioridade e status concluido/pendente.
+- Busca dentro do painel.
+- Filtros por status, prioridade e dia.
+- Agrupamento por dia, status ou prioridade.

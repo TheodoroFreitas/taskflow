@@ -71,6 +71,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <div class="ff"><label>Email</label><input type="email" id="email" placeholder="seuemail@exemplo.com" autocomplete="email"></div>
     <div class="ff" id="ffNome" style="display:none"><label>Nome</label><input type="text" id="nome" placeholder="Seu nome"></div>
     <div class="ff"><label>Senha</label><input type="password" id="senha" placeholder="••••••••" autocomplete="current-password"></div>
+    <div class="ff" id="ffConfirmaSenha" style="display:none"><label>Confirmar senha</label><input type="password" id="confirmaSenha" placeholder="••••••••" autocomplete="new-password"></div>
     <button class="btn-primary" id="btnAcao" onclick="executar()">
       <span id="btnLabel">Entrar no TaskFlow</span>
     </button>
@@ -109,20 +110,29 @@ window.setTab = function(modo) {
   document.getElementById('tabLogin').classList.toggle('active', modo === 'login');
   document.getElementById('tabCadastro').classList.toggle('active', modo === 'cadastro');
   document.getElementById('ffNome').style.display = modo === 'cadastro' ? 'block' : 'none';
+  document.getElementById('ffConfirmaSenha').style.display = modo === 'cadastro' ? 'block' : 'none';
+  document.getElementById('senha').autocomplete = modo === 'cadastro' ? 'new-password' : 'current-password';
   document.getElementById('btnLabel').textContent = modo === 'login' ? 'Entrar no TaskFlow' : 'Criar minha conta';
   document.getElementById('footerLink').style.display = modo === 'login' ? 'block' : 'none';
   document.getElementById('errBox').classList.remove('show');
 };
 
 window.executar = async function() {
-  const email = document.getElementById('email').value.trim();
+  const email = document.getElementById('email').value.trim().toLowerCase();
   const senha = document.getElementById('senha').value;
+  const confirmaSenha = document.getElementById('confirmaSenha').value;
   const nome  = document.getElementById('nome').value.trim();
   const btn   = document.getElementById('btnAcao');
   const lbl   = document.getElementById('btnLabel');
 
   if (!email || !senha) { mostrarErro('Preencha todos os campos.'); return; }
-  if (modoAtual === 'cadastro' && !nome) { mostrarErro('Digite seu nome.'); return; }
+  if (!emailValido(email)) { mostrarErro('Digite um email valido.'); return; }
+  if (loginBloqueado()) { mostrarErro('Muitas tentativas. Aguarde alguns minutos e tente novamente.'); return; }
+  if (modoAtual === 'cadastro') {
+    if (nome.length < 2) { mostrarErro('Digite seu nome completo ou apelido.'); return; }
+    if (!senhaForte(senha)) { mostrarErro('Use uma senha com 8+ caracteres, letra e numero.'); return; }
+    if (senha !== confirmaSenha) { mostrarErro('A confirmacao da senha nao confere.'); return; }
+  }
 
   btn.disabled = true;
   lbl.innerHTML = '<div class="spinner"></div>';
@@ -134,22 +144,61 @@ window.executar = async function() {
       const cred = await createUserWithEmailAndPassword(auth, email, senha);
       await updateProfile(cred.user, { displayName: nome });
     }
+    limparTentativas();
     window.location.replace('./app.html?v=' + Date.now());
   } catch(e) {
     btn.disabled = false;
     lbl.textContent = modoAtual === 'login' ? 'Entrar no TaskFlow' : 'Criar minha conta';
-    const msgs = {
-      'auth/invalid-credential': 'Email ou senha inválidos.',
-      'auth/user-not-found': 'Usuário não encontrado.',
-      'auth/wrong-password': 'Senha incorreta.',
-      'auth/email-already-in-use': 'Este email já está cadastrado.',
-      'auth/weak-password': 'Senha muito fraca. Use ao menos 6 caracteres.',
-      'auth/invalid-email': 'Email inválido.',
-      'auth/too-many-requests': 'Muitas tentativas. Tente novamente em alguns minutos.',
-    };
-    mostrarErro(msgs[e.code] || 'Erro: ' + e.message);
+    if (modoAtual === 'login') registrarTentativaFalha();
+    mostrarErro(mensagemAuth(e, modoAtual));
   }
 };
+
+function emailValido(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+}
+
+function senhaForte(senha) {
+  return senha.length >= 8 && /[A-Za-z]/.test(senha) && /\d/.test(senha);
+}
+
+function mensagemAuth(e, modo) {
+  if (modo === 'login') {
+    if (e.code === 'auth/too-many-requests') return 'Muitas tentativas. Tente novamente em alguns minutos.';
+    return 'Nao foi possivel entrar. Confira email e senha.';
+  }
+  const msgs = {
+    'auth/email-already-in-use': 'Este email ja esta cadastrado. Tente entrar ou use outro email.',
+    'auth/weak-password': 'Senha muito fraca. Use ao menos 8 caracteres.',
+    'auth/invalid-email': 'Email invalido.',
+    'auth/operation-not-allowed': 'Cadastro por email e senha nao esta habilitado no Firebase.',
+    'auth/too-many-requests': 'Muitas tentativas. Tente novamente em alguns minutos.'
+  };
+  return msgs[e.code] || 'Nao foi possivel criar a conta agora.';
+}
+
+function tentativasLogin() {
+  try { return JSON.parse(localStorage.getItem('tf_login_guard') || '{"count":0,"until":0}'); }
+  catch { return { count: 0, until: 0 }; }
+}
+
+function loginBloqueado() {
+  const guard = tentativasLogin();
+  if (Date.now() < guard.until) return true;
+  if (guard.until) limparTentativas();
+  return false;
+}
+
+function registrarTentativaFalha() {
+  const guard = tentativasLogin();
+  const count = Date.now() > guard.until ? guard.count + 1 : guard.count;
+  const until = count >= 5 ? Date.now() + 10 * 60 * 1000 : 0;
+  localStorage.setItem('tf_login_guard', JSON.stringify({ count, until }));
+}
+
+function limparTentativas() {
+  localStorage.removeItem('tf_login_guard');
+}
 
 function mostrarErro(msg) {
   document.getElementById('errText').textContent = msg;
@@ -157,7 +206,7 @@ function mostrarErro(msg) {
 }
 
 // Enter para submeter
-['email','senha','nome'].forEach(id => {
+['email','senha','nome','confirmaSenha'].forEach(id => {
   document.getElementById(id)?.addEventListener('keydown', e => {
     if (e.key === 'Enter') window.executar();
   });
