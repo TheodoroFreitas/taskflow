@@ -62,6 +62,9 @@ O painel suporta:
 - Agenda semanal de domingo a sabado.
 - Edicao de tarefa com descricao, dia, prioridade e status.
 - Planejamento alimentar semanal por dia e refeicao.
+- Soma automatica de macros por refeicao e por semana.
+- Estimativa de TMB, gasto calorico e meta de macros a partir de peso, altura, idade, sexo, objetivo e atividade.
+- Duplicacao rapida de refeicoes entre dias/refeicoes.
 
 ## Seguranca no front-end
 

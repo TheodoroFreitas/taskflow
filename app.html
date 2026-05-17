@@ -899,6 +899,43 @@ select.form-inp option { background: #141b2d; }
   box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
 }
 
+.meal-macros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+.meal-macros input {
+  width: 100%;
+  padding: 7px 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  color: var(--text);
+  font-size: 11px;
+}
+.meal-tools { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.meal-total {
+  font-size: 11px;
+  color: var(--text3);
+  padding: 2px 0;
+}
+.macro-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+  grid-column: 1 / -1;
+}
+.macro-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+}
+.macro-card span { display:block; font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; }
+.macro-card strong { display:block; margin-top: 4px; font-family:'Syne',sans-serif; font-size: 20px; }
+.macro-target { color: var(--text3); font-size: 11px; margin-top: 3px; }
+
 /* ════════════════════════════════
    BUTTONS
 ════════════════════════════════ */
@@ -1282,6 +1319,7 @@ select.form-inp option { background: #141b2d; }
   .page-emoji { font-size: 22px; }
   .painel-title-input { font-size: 22px; }
   .profile-grid { grid-template-columns: 1fr; }
+  .macro-summary { grid-template-columns: repeat(2, 1fr); }
 
   /* Safe area para notch/gesture bar */
   .sidebar { padding-bottom: env(safe-area-inset-bottom); }
@@ -1424,6 +1462,9 @@ select.form-inp option { background: #141b2d; }
       <span class="user-name" id="sidebarName">…</span>
       <span class="user-role"><span class="sync-dot" id="syncDot"></span><span id="syncLabel">sincronizado</span></span>
     </div>
+    <button class="btn-icon" onclick="abrirPerfil()" title="Minha conta">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M4.93 4.93l2.12 2.12"/><path d="M16.95 16.95l2.12 2.12"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="M4.93 19.07l2.12-2.12"/><path d="M16.95 7.05l2.12-2.12"/></svg>
+    </button>
     <button class="btn-icon" onclick="sair()" title="Sair">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     </button>
@@ -1443,10 +1484,6 @@ select.form-inp option { background: #141b2d; }
     <button class="nav-item" onclick="abrirAlimentacao()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 3v7a4 4 0 0 0 8 0V3"/><path d="M8 3v18"/><path d="M19 3v18"/><path d="M15 3h4a3 3 0 0 1 0 6h-4"/></svg>
       <span>Alimentacao</span>
-    </button>
-    <button class="nav-item" onclick="abrirPerfil()">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Minha Conta</span>
     </button>
   </nav>
 
@@ -1641,6 +1678,20 @@ select.form-inp option { background: #141b2d; }
         <div class="form-field"><label>Confirmar nova senha</label><input type="password" id="perfilConfirmaSenha" autocomplete="new-password"></div>
       </div>
       <div class="profile-divider"></div>
+      <div class="profile-grid">
+        <div class="form-field"><label>Peso (kg)</label><input type="number" id="perfilPeso" min="20" max="300" step="0.1"></div>
+        <div class="form-field"><label>Altura (cm)</label><input type="number" id="perfilAltura" min="100" max="230" step="1"></div>
+        <div class="form-field"><label>Idade</label><input type="number" id="perfilIdade" min="10" max="100" step="1"></div>
+        <div class="form-field"><label>Sexo biologico</label><select class="form-inp" id="perfilSexo"><option value="">Selecionar</option><option value="masculino">Masculino</option><option value="feminino">Feminino</option></select></div>
+        <div class="form-field"><label>Objetivo</label><select class="form-inp" id="perfilObjetivo"><option value="manter">Manter peso</option><option value="ganhar">Ganhar massa</option><option value="perder">Perder gordura</option></select></div>
+        <div class="form-field"><label>Atividade</label><select class="form-inp" id="perfilAtividade"><option value="1.2">Sedentario</option><option value="1.375">Leve</option><option value="1.55">Moderado</option><option value="1.725">Intenso</option></select></div>
+        <div class="form-field"><label>Biotipo</label><select class="form-inp" id="perfilBiotipo"><option value="">Nao sei</option><option value="ectomorfo">Ectomorfo</option><option value="mesomorfo">Mesomorfo</option><option value="endomorfo">Endomorfo</option></select></div>
+        <div class="form-field"><label>Preferencia alimentar</label><input type="text" id="perfilPreferencia" maxlength="80" placeholder="Ex: simples, vegetariana, low carb"></div>
+      </div>
+      <div class="profile-status" id="perfilMacroResumo">
+        <div><strong>Estimativa nutricional</strong><br><span>Preencha peso, altura, idade e sexo.</span></div>
+      </div>
+      <div class="profile-divider"></div>
       <div class="form-field">
         <small>Para seguranca, mudancas sensiveis podem exigir login recente. Se o Firebase recusar, saia e entre novamente antes de salvar.</small>
       </div>
@@ -1710,7 +1761,7 @@ const db    = getFirestore(fbApp);
 
 // ── STATE ──
 let USER = null;
-let data = { paineis: [], tarefas: [], alimentacao: [] };
+let data = { paineis: [], tarefas: [], alimentacao: [], perfil: {} };
 let viewAtual = 'geral';
 let painelAtivoId = null;
 let filtroAtivo = 'todos';
@@ -1722,6 +1773,7 @@ let sidebarCollapsed = false;
 let unsubPaineis = null;
 let unsubTarefas = null;
 let unsubAlimentacao = null;
+let unsubPerfil = null;
 let carregamentoFinalizado = false;
 
 const DIAS_SEMANA = [
@@ -1741,6 +1793,9 @@ const REFEICOES = [
 ];
 const HOJE_DIA = ['domingo','segunda','terca','quarta','quinta','sexta','sabado'][new Date().getDay()];
 const SEMANA_ATUAL = getSemanaKey(new Date());
+document.addEventListener('input', e => {
+  if (e.target?.id?.startsWith('perfil')) atualizarResumoPerfil();
+});
 
 // ── SYNC INDICATOR ──
 function setSyncing(v) {
@@ -1772,6 +1827,7 @@ window.sair = async function() {
   if (unsubPaineis) unsubPaineis();
   if (unsubTarefas) unsubTarefas();
   if (unsubAlimentacao) unsubAlimentacao();
+  if (unsubPerfil) unsubPerfil();
   await signOut(auth);
   window.location.replace('./index.html?v=' + Date.now());
 };
@@ -1787,6 +1843,16 @@ window.abrirPerfil = function() {
   document.getElementById('perfilStatusEmail').textContent = USER.email || 'Conta Firebase';
   document.getElementById('perfilStatusVerificacao').textContent = USER.emailVerified ? 'Email verificado' : 'Email ainda nao verificado';
   document.getElementById('btnVerificarEmail').style.display = USER.emailVerified ? 'none' : 'inline-flex';
+  const p = data.perfil || {};
+  document.getElementById('perfilPeso').value = p.peso || '';
+  document.getElementById('perfilAltura').value = p.altura || '';
+  document.getElementById('perfilIdade').value = p.idade || '';
+  document.getElementById('perfilSexo').value = p.sexo || '';
+  document.getElementById('perfilObjetivo').value = p.objetivo || 'manter';
+  document.getElementById('perfilAtividade').value = p.atividade || '1.2';
+  document.getElementById('perfilBiotipo').value = p.biotipo || '';
+  document.getElementById('perfilPreferencia').value = p.preferencia || '';
+  atualizarResumoPerfil();
   abrirModal('modalPerfil');
 };
 
@@ -1807,6 +1873,16 @@ window.salvarPerfil = async function() {
   const senhaAtual = document.getElementById('perfilSenhaAtual').value;
   const novaSenha = document.getElementById('perfilNovaSenha').value;
   const confirmaSenha = document.getElementById('perfilConfirmaSenha').value;
+  const perfilNutricional = {
+    peso: Number(document.getElementById('perfilPeso').value) || null,
+    altura: Number(document.getElementById('perfilAltura').value) || null,
+    idade: Number(document.getElementById('perfilIdade').value) || null,
+    sexo: document.getElementById('perfilSexo').value,
+    objetivo: document.getElementById('perfilObjetivo').value,
+    atividade: Number(document.getElementById('perfilAtividade').value) || 1.2,
+    biotipo: document.getElementById('perfilBiotipo').value,
+    preferencia: document.getElementById('perfilPreferencia').value.trim()
+  };
 
   if (nome.length < 2) { toast('Informe um nome com pelo menos 2 caracteres.', 'e'); return; }
   if (!emailValido(email)) { toast('Informe um email valido.', 'e'); return; }
@@ -1823,6 +1899,8 @@ window.salvarPerfil = async function() {
     if (email !== USER.email || novaSenha) await reautenticar(senhaAtual);
     if (email !== USER.email) await updateEmail(USER, email);
     if (novaSenha) await updatePassword(USER, novaSenha);
+    await setDoc(perfilDoc(), { perfil: perfilNutricional, atualizadoEm: serverTimestamp() }, { merge: true });
+    data.perfil = perfilNutricional;
     await USER.reload();
     USER = auth.currentUser;
     atualizarUsuarioNaTela();
@@ -1861,18 +1939,50 @@ function mensagemAuth(e) {
   return msgs[e?.code];
 }
 
+function calcularMetasNutricionais(perfil = data.perfil) {
+  const { peso, altura, idade, sexo, objetivo, atividade } = perfil || {};
+  if (!peso || !altura || !idade || !sexo) return null;
+  const ajusteSexo = sexo === 'masculino' ? 5 : -161;
+  const tmb = Math.round((10 * peso) + (6.25 * altura) - (5 * idade) + ajusteSexo);
+  const gasto = Math.round(tmb * (Number(atividade) || 1.2));
+  const ajusteObjetivo = objetivo === 'ganhar' ? 300 : objetivo === 'perder' ? -400 : 0;
+  const calorias = Math.max(1200, gasto + ajusteObjetivo);
+  const proteina = Math.round(peso * (objetivo === 'ganhar' ? 2 : 1.7));
+  const gordura = Math.round(peso * 0.8);
+  const carbo = Math.max(0, Math.round((calorias - (proteina * 4) - (gordura * 9)) / 4));
+  return { tmb, gasto, calorias, proteina, carbo, gordura };
+}
+
+function atualizarResumoPerfil() {
+  const el = document.getElementById('perfilMacroResumo');
+  if (!el) return;
+  const perfil = {
+    peso: Number(document.getElementById('perfilPeso').value) || null,
+    altura: Number(document.getElementById('perfilAltura').value) || null,
+    idade: Number(document.getElementById('perfilIdade').value) || null,
+    sexo: document.getElementById('perfilSexo').value,
+    objetivo: document.getElementById('perfilObjetivo').value,
+    atividade: Number(document.getElementById('perfilAtividade').value) || 1.2
+  };
+  const metas = calcularMetasNutricionais(perfil);
+  el.innerHTML = metas
+    ? `<div><strong>Estimativa nutricional</strong><br><span>TMB ${metas.tmb} kcal | Gasto ${metas.gasto} kcal | Meta ${metas.calorias} kcal</span><br><span>P ${metas.proteina}g | C ${metas.carbo}g | G ${metas.gordura}g</span></div>`
+    : '<div><strong>Estimativa nutricional</strong><br><span>Preencha peso, altura, idade e sexo.</span></div>';
+}
+
 function painelCol()  { return collection(db, 'users', USER.uid, 'paineis'); }
 function tarefaCol()  { return collection(db, 'users', USER.uid, 'tarefas'); }
 function painelDoc(id){ return doc(db, 'users', USER.uid, 'paineis', id); }
 function tarefaDoc(id){ return doc(db, 'users', USER.uid, 'tarefas', id); }
 function alimentacaoCol() { return collection(db, 'users', USER.uid, 'alimentacao'); }
 function alimentacaoDoc(id){ return doc(db, 'users', USER.uid, 'alimentacao', id); }
+function perfilDoc(){ return doc(db, 'users', USER.uid); }
 
 // ── LISTENERS TEMPO REAL ──
 function iniciarListeners() {
   setSyncing(true);
   carregamentoFinalizado = false;
-  let loadedP = false, loadedT = false, loadedA = false;
+  let loadedP = false, loadedT = false, loadedA = false, loadedPerfil = false;
   const onErroFirestore = erro => {
     console.error('Erro ao carregar dados do Firestore:', erro);
     setSyncing(false);
@@ -1885,7 +1995,7 @@ function iniciarListeners() {
   unsubPaineis = onSnapshot(query(painelCol(), orderBy('criadoEm')), snap => {
     data.paineis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedP = true;
-    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    if (loadedP && loadedT && loadedA && loadedPerfil) finalizarCarregamento();
     renderTudo();
     atualizarStorageInfo();
   }, onErroFirestore);
@@ -1893,7 +2003,7 @@ function iniciarListeners() {
   unsubTarefas = onSnapshot(query(tarefaCol(), orderBy('criadoEm')), snap => {
     data.tarefas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedT = true;
-    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    if (loadedP && loadedT && loadedA && loadedPerfil) finalizarCarregamento();
     renderTudo();
     atualizarStorageInfo();
   }, onErroFirestore);
@@ -1901,9 +2011,16 @@ function iniciarListeners() {
   unsubAlimentacao = onSnapshot(query(alimentacaoCol(), orderBy('criadoEm')), snap => {
     data.alimentacao = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedA = true;
-    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    if (loadedP && loadedT && loadedA && loadedPerfil) finalizarCarregamento();
     renderTudo();
     atualizarStorageInfo();
+  }, onErroFirestore);
+
+  unsubPerfil = onSnapshot(perfilDoc(), snap => {
+    data.perfil = snap.exists() ? (snap.data().perfil || {}) : {};
+    loadedPerfil = true;
+    if (loadedP && loadedT && loadedA && loadedPerfil) finalizarCarregamento();
+    renderTudo();
   }, onErroFirestore);
 }
 
@@ -2048,15 +2165,23 @@ window.excluirTarefaEditando = async function() {
   toast('Tarefa removida.', '');
 };
 
-window.salvarRefeicao = async function(dia, tipo, texto) {
+window.salvarRefeicao = async function(dia, tipo) {
   const id = `${SEMANA_ATUAL}_${dia}_${tipo}`;
+  const selector = `.meal-field[data-dia="${dia}"][data-tipo="${tipo}"]`;
+  const box = document.querySelector(selector);
+  if (!box) return;
+  const inputs = box.querySelectorAll('input');
   try {
     setSyncing(true);
     await setDoc(alimentacaoDoc(id), {
       semana: SEMANA_ATUAL,
       dia,
       tipo,
-      texto: texto.trim(),
+      texto: box.querySelector('textarea')?.value.trim() || '',
+      kcal: Number(inputs[0]?.value) || 0,
+      proteina: Number(inputs[1]?.value) || 0,
+      carbo: Number(inputs[2]?.value) || 0,
+      gordura: Number(inputs[3]?.value) || 0,
       atualizadoEm: serverTimestamp(),
       criadoEm: serverTimestamp()
     }, { merge: true });
@@ -2065,6 +2190,29 @@ window.salvarRefeicao = async function(dia, tipo, texto) {
   } finally {
     setSyncing(false);
   }
+};
+
+window.duplicarRefeicao = async function(dia, tipo) {
+  const atual = data.alimentacao.find(a => a.semana === SEMANA_ATUAL && a.dia === dia && a.tipo === tipo);
+  if (!atual) { toast('Preencha a refeicao antes de duplicar.', 'e'); return; }
+  const destinoDia = prompt('Duplicar para qual dia? domingo, segunda, terca, quarta, quinta, sexta ou sabado', dia);
+  if (!destinoDia || !DIAS_SEMANA.some(d => d.id === destinoDia)) return;
+  const destinoTipo = prompt('Duplicar para qual refeicao? cafe, almoco, lanche ou jantar', tipo);
+  if (!destinoTipo || !REFEICOES.some(r => r.id === destinoTipo)) return;
+  const id = `${SEMANA_ATUAL}_${destinoDia}_${destinoTipo}`;
+  await setDoc(alimentacaoDoc(id), {
+    semana: SEMANA_ATUAL,
+    dia: destinoDia,
+    tipo: destinoTipo,
+    texto: atual.texto || '',
+    kcal: Number(atual.kcal) || 0,
+    proteina: Number(atual.proteina) || 0,
+    carbo: Number(atual.carbo) || 0,
+    gordura: Number(atual.gordura) || 0,
+    atualizadoEm: serverTimestamp(),
+    criadoEm: serverTimestamp()
+  }, { merge: true });
+  toast('Refeicao duplicada.', 's');
 };
 
 window.setFiltro = function(f) { filtroAtivo = f; renderPainel(); };
@@ -2243,7 +2391,14 @@ window.abrirAlimentacao = function() {
 
 function renderAlimentacao() {
   const grid = document.getElementById('mealGrid');
-  grid.innerHTML = DIAS_SEMANA.map(d => {
+  const totais = somarMacros(data.alimentacao.filter(a => a.semana === SEMANA_ATUAL));
+  const metas = calcularMetasNutricionais();
+  grid.innerHTML = `<div class="macro-summary">
+    <div class="macro-card"><span>Calorias</span><strong>${totais.kcal}</strong><div class="macro-target">meta ${metas?.calorias || '-'} kcal</div></div>
+    <div class="macro-card"><span>Proteina</span><strong>${totais.proteina}g</strong><div class="macro-target">meta ${metas?.proteina || '-'}g</div></div>
+    <div class="macro-card"><span>Carbo</span><strong>${totais.carbo}g</strong><div class="macro-target">meta ${metas?.carbo || '-'}g</div></div>
+    <div class="macro-card"><span>Gordura</span><strong>${totais.gordura}g</strong><div class="macro-target">meta ${metas?.gordura || '-'}g</div></div>
+  </div>` + DIAS_SEMANA.map(d => {
     const isHoje = d.id === HOJE_DIA;
     return `<div class="meal-day${isHoje ? ' today' : ''}">
       <div class="meal-day-header">
@@ -2253,9 +2408,16 @@ function renderAlimentacao() {
       <div class="meal-list">
         ${REFEICOES.map(r => {
           const item = data.alimentacao.find(a => a.semana === SEMANA_ATUAL && a.dia === d.id && a.tipo === r.id);
-          return `<div class="meal-field">
-            <label>${r.nome}</label>
-            <textarea maxlength="240" placeholder="Planejar ${r.nome.toLowerCase()}" onchange="salvarRefeicao('${d.id}','${r.id}',this.value)">${esc(item?.texto || '')}</textarea>
+          const m = item || {};
+          return `<div class="meal-field" data-dia="${d.id}" data-tipo="${r.id}">
+            <div class="meal-tools"><label>${r.nome}</label><button class="btn-icon" title="Duplicar refeicao" onclick="duplicarRefeicao('${d.id}','${r.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><rect x="2" y="2" width="13" height="13" rx="2"/></svg></button></div>
+            <textarea maxlength="240" placeholder="Planejar ${r.nome.toLowerCase()}" onchange="salvarRefeicao('${d.id}','${r.id}')">${esc(m.texto || '')}</textarea>
+            <div class="meal-macros">
+              <input type="number" min="0" placeholder="kcal" value="${m.kcal || ''}" onchange="salvarRefeicao('${d.id}','${r.id}')">
+              <input type="number" min="0" placeholder="prot" value="${m.proteina || ''}" onchange="salvarRefeicao('${d.id}','${r.id}')">
+              <input type="number" min="0" placeholder="carb" value="${m.carbo || ''}" onchange="salvarRefeicao('${d.id}','${r.id}')">
+              <input type="number" min="0" placeholder="gord" value="${m.gordura || ''}" onchange="salvarRefeicao('${d.id}','${r.id}')">
+            </div>
           </div>`;
         }).join('')}
       </div>
@@ -2496,6 +2658,16 @@ function atualizarResumoAlimentacao() {
   const preenchidas = data.alimentacao.filter(a => a.semana === SEMANA_ATUAL && a.texto).length;
   const total = DIAS_SEMANA.length * REFEICOES.length;
   el.textContent = `${preenchidas}/${total} refeicoes planejadas`;
+}
+
+function somarMacros(items) {
+  return items.reduce((acc, item) => {
+    acc.kcal += Number(item.kcal) || 0;
+    acc.proteina += Number(item.proteina) || 0;
+    acc.carbo += Number(item.carbo) || 0;
+    acc.gordura += Number(item.gordura) || 0;
+    return acc;
+  }, { kcal: 0, proteina: 0, carbo: 0, gordura: 0 });
 }
 
 function getSemanaKey(date) {

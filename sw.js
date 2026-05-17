@@ -1,4 +1,4 @@
-const CACHE = 'taskflow-v5';
+const CACHE = 'taskflow-v6';
 const URLS  = ['./','./index.html','./app.html','./manifest.json'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(URLS)).then(() => self.skipWaiting()));
