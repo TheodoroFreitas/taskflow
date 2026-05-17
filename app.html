@@ -1391,6 +1391,7 @@ let corSelecionada   = '#3b82f6';
 let sidebarCollapsed = false;
 let unsubPaineis = null;
 let unsubTarefas = null;
+let carregamentoFinalizado = false;
 
 const DIAS_SEMANA = [
   { id:'segunda', nome:'Segunda' },
@@ -1413,7 +1414,7 @@ function setSyncing(v) {
 
 // ── AUTH ──
 onAuthStateChanged(auth, user => {
-  if (!user) { window.location.href = './index.html'; return; }
+  if (!user) { window.location.replace('./index.html?v=' + Date.now()); return; }
   USER = user;
   const nome = user.displayName || user.email.split('@')[0];
   document.getElementById('sidebarName').textContent = nome;
@@ -1427,7 +1428,7 @@ window.sair = async function() {
   if (unsubPaineis) unsubPaineis();
   if (unsubTarefas) unsubTarefas();
   await signOut(auth);
-  window.location.href = './index.html';
+  window.location.replace('./index.html?v=' + Date.now());
 };
 
 // ── FIRESTORE PATHS ──
@@ -1439,28 +1440,39 @@ function tarefaDoc(id){ return doc(db, 'users', USER.uid, 'tarefas', id); }
 // ── LISTENERS TEMPO REAL ──
 function iniciarListeners() {
   setSyncing(true);
+  carregamentoFinalizado = false;
   let loadedP = false, loadedT = false;
+  const onErroFirestore = erro => {
+    console.error('Erro ao carregar dados do Firestore:', erro);
+    setSyncing(false);
+    const ov = document.getElementById('loadingOverlay');
+    ov?.classList.add('hide');
+    setTimeout(() => ov?.remove(), 500);
+    toast('Nao foi possivel carregar seus dados. Verifique as regras do Firestore.', 'e');
+  };
 
   unsubPaineis = onSnapshot(query(painelCol(), orderBy('criadoEm')), snap => {
     data.paineis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedP = true;
     if (loadedP && loadedT) finalizarCarregamento();
     else renderTudo();
-  });
+  }, onErroFirestore);
 
   unsubTarefas = onSnapshot(query(tarefaCol(), orderBy('criadoEm')), snap => {
     data.tarefas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedT = true;
     if (loadedP && loadedT) finalizarCarregamento();
     else renderTudo();
-  });
+  }, onErroFirestore);
 }
 
 function finalizarCarregamento() {
+  if (carregamentoFinalizado) return;
+  carregamentoFinalizado = true;
   setSyncing(false);
   const ov = document.getElementById('loadingOverlay');
-  ov.classList.add('hide');
-  setTimeout(() => ov.remove(), 500);
+  ov?.classList.add('hide');
+  setTimeout(() => ov?.remove(), 500);
   renderTudo();
   atualizarStorageInfo();
 }
@@ -1575,16 +1587,16 @@ function renderSidebar() {
     const total = data.tarefas.filter(t => t.painelId === p.id).length;
     const div = document.createElement('div');
     div.className = 'painel-item' + (painelAtivoId === p.id && viewAtual === 'painel' ? ' active' : '');
-    div.innerHTML = \`
-      <div class="painel-item-dot" style="background:\${p.cor}"></div>
-      <span class="painel-item-icon">\${p.emoji}</span>
-      <span class="painel-item-name">\${esc(p.nome)}</span>
-      <span class="painel-item-count">\${total}</span>
+    div.innerHTML = `
+      <div class="painel-item-dot" style="background:${p.cor}"></div>
+      <span class="painel-item-icon">${p.emoji}</span>
+      <span class="painel-item-name">${esc(p.nome)}</span>
+      <span class="painel-item-count">${total}</span>
       <div class="painel-item-opts">
-        <button class="btn-icon" onclick="abrirEditarPainel(event,'\${p.id}')">
+        <button class="btn-icon" onclick="abrirEditarPainel(event,'${p.id}')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         </button>
-      </div>\`;
+      </div>`;
     div.addEventListener('click', () => abrirPainel(p.id));
     list.appendChild(div);
   });
@@ -1609,32 +1621,32 @@ function renderVisaoGeral() {
   const feitas   = data.tarefas.filter(t => t.feita).length;
   const pendentes= total - feitas;
   const alta     = data.tarefas.filter(t => t.prioridade === 'alta' && !t.feita).length;
-  document.getElementById('statsGrid').innerHTML = \`
-    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value c-blue">\${total}</div></div>
-    <div class="stat-card"><div class="stat-label">Concluídas</div><div class="stat-value c-green">\${feitas}</div></div>
-    <div class="stat-card"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">\${pendentes}</div></div>
-    <div class="stat-card"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">\${alta}</div></div>
-    <div class="stat-card"><div class="stat-label">Painéis</div><div class="stat-value c-blue">\${data.paineis.length}</div></div>
-  \`;
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value c-blue">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">Concluídas</div><div class="stat-value c-green">${feitas}</div></div>
+    <div class="stat-card"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">${pendentes}</div></div>
+    <div class="stat-card"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">${alta}</div></div>
+    <div class="stat-card"><div class="stat-label">Painéis</div><div class="stat-value c-blue">${data.paineis.length}</div></div>
+  `;
   const grid = document.getElementById('overviewGrid');
   if (data.paineis.length === 0) {
-    grid.innerHTML = \`<div class="overview-empty">Nenhum painel ainda.<br>Clique em <strong>+</strong> na sidebar para criar o primeiro.</div>\`;
+    grid.innerHTML = `<div class="overview-empty">Nenhum painel ainda.<br>Clique em <strong>+</strong> na sidebar para criar o primeiro.</div>`;
     return;
   }
   grid.innerHTML = data.paineis.map(p => {
     const ts   = data.tarefas.filter(t => t.painelId === p.id);
     const done = ts.filter(t => t.feita).length;
     const pct  = ts.length > 0 ? Math.round((done/ts.length)*100) : 0;
-    return \`<div class="overview-card" onclick="abrirPainel('\${p.id}')">
-      <div class="overview-card-top" style="background:\${p.cor}"></div>
+    return `<div class="overview-card" onclick="abrirPainel('${p.id}')">
+      <div class="overview-card-top" style="background:${p.cor}"></div>
       <div class="overview-card-body">
-        <div class="overview-card-title"><span>\${p.emoji}</span><span>\${esc(p.nome)}</span></div>
-        <div class="overview-card-meta"><span>\${ts.length} tarefas</span><span>·</span><span>\${done} concluídas</span></div>
+        <div class="overview-card-title"><span>${p.emoji}</span><span>${esc(p.nome)}</span></div>
+        <div class="overview-card-meta"><span>${ts.length} tarefas</span><span>·</span><span>${done} concluídas</span></div>
         <div class="overview-progress">
-          <div class="overview-progress-bar"><div class="overview-progress-fill" style="width:\${pct}%;background:\${p.cor}"></div></div>
-          <div class="overview-progress-label">\${pct}% concluído</div>
+          <div class="overview-progress-bar"><div class="overview-progress-fill" style="width:${pct}%;background:${p.cor}"></div></div>
+          <div class="overview-progress-label">${pct}% concluído</div>
         </div>
-      </div></div>\`;
+      </div></div>`;
   }).join('');
 }
 
@@ -1651,24 +1663,24 @@ function renderAgenda() {
       ? '<div class="week-empty">Sem tarefas</div>'
       : ts.map(t => {
           const p = data.paineis.find(p => p.id === t.painelId);
-          return \`<div class="week-task\${t.feita?' done':''}">
-            <div class="wt-cb" onclick="toggleTarefa('\${t.id}')">
+          return `<div class="week-task${t.feita?' done':''}">
+            <div class="wt-cb" onclick="toggleTarefa('${t.id}')">
               <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="1 5 4.5 9 11 1"/></svg>
             </div>
             <div class="wt-body">
-              <div class="wt-text">\${esc(t.texto)}</div>
-              \${p?'<div class="wt-painel" style="color:'+p.cor+'">'+p.emoji+' '+esc(p.nome)+'</div>':''}
-            </div></div>\`;
+              <div class="wt-text">${esc(t.texto)}</div>
+              ${p?'<div class="wt-painel" style="color:'+p.cor+'">'+p.emoji+' '+esc(p.nome)+'</div>':''}
+            </div></div>`;
         }).join('');
-    return \`<div class="week-col\${isHoje?' today':''}">
+    return `<div class="week-col${isHoje?' today':''}">
       <div class="week-col-header">
-        <span class="week-day-name">\${d.nome}</span>
+        <span class="week-day-name">${d.nome}</span>
         <div style="display:flex;gap:5px;align-items:center">
-          \${isHoje?'<span class="today-chip">Hoje</span>':''}
-          <span class="week-col-count">\${ts.length}</span>
+          ${isHoje?'<span class="today-chip">Hoje</span>':''}
+          <span class="week-col-count">${ts.length}</span>
         </div>
       </div>
-      <div class="week-col-tasks">\${cards}</div></div>\`;
+      <div class="week-col-tasks">${cards}</div></div>`;
   }).join('');
 }
 
@@ -1684,37 +1696,37 @@ function renderPainel() {
   const feitas   = ts.filter(t => t.feita).length;
   const pendentes= ts.length - feitas;
   const pct      = ts.length > 0 ? Math.round((feitas/ts.length)*100) : 0;
-  document.getElementById('viewPainel').innerHTML = \`
+  document.getElementById('viewPainel').innerHTML = `
     <div class="painel-view-header">
       <div class="painel-view-title-row">
-        <span class="page-emoji">\${p.emoji}</span>
-        <input class="painel-title-input" value="\${esc(p.nome)}" maxlength="40" onchange="renomearPainelInline('\${p.id}',this.value)">
+        <span class="page-emoji">${p.emoji}</span>
+        <input class="painel-title-input" value="${esc(p.nome)}" maxlength="40" onchange="renomearPainelInline('${p.id}',this.value)">
       </div>
       <div class="painel-actions">
-        <button class="btn-sm" onclick="abrirEditarPainel(event,'\${p.id}')">
+        <button class="btn-sm" onclick="abrirEditarPainel(event,'${p.id}')">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Editar
         </button>
       </div>
     </div>
-    <input class="painel-desc-input" value="\${esc(p.descricao||'')}" placeholder="Adicione uma descrição…" maxlength="100" onchange="editarDescricao('\${p.id}',this.value)">
+    <input class="painel-desc-input" value="${esc(p.descricao||'')}" placeholder="Adicione uma descrição…" maxlength="100" onchange="editarDescricao('${p.id}',this.value)">
     <div class="painel-stats-row">
-      <div class="painel-stat"><span class="painel-stat-label">Total</span><span class="painel-stat-val" style="color:#60a5fa">\${ts.length}</span></div>
+      <div class="painel-stat"><span class="painel-stat-label">Total</span><span class="painel-stat-val" style="color:#60a5fa">${ts.length}</span></div>
       <div class="painel-stat-divider"></div>
-      <div class="painel-stat"><span class="painel-stat-label">Feitas</span><span class="painel-stat-val" style="color:#86efac">\${feitas}</span></div>
+      <div class="painel-stat"><span class="painel-stat-label">Feitas</span><span class="painel-stat-val" style="color:#86efac">${feitas}</span></div>
       <div class="painel-stat-divider"></div>
-      <div class="painel-stat"><span class="painel-stat-label">Pendentes</span><span class="painel-stat-val" style="color:#fcd34d">\${pendentes}</span></div>
+      <div class="painel-stat"><span class="painel-stat-label">Pendentes</span><span class="painel-stat-val" style="color:#fcd34d">${pendentes}</span></div>
       <div class="painel-stat-divider"></div>
       <div class="painel-progress-wrap">
-        <div class="painel-progress-track"><div class="painel-progress-bar" style="width:\${pct}%;background:\${p.cor}"></div></div>
-        <div style="font-size:11px;color:var(--text3);margin-top:3px">\${pct}% concluído</div>
+        <div class="painel-progress-track"><div class="painel-progress-bar" style="width:${pct}%;background:${p.cor}"></div></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">${pct}% concluído</div>
       </div>
     </div>
     <div class="add-task-form">
       <div class="ff grow"><label>Nova Tarefa</label><input class="form-inp" type="text" id="newTaskText" placeholder="O que precisa ser feito?" maxlength="120"></div>
       <div class="ff"><label>Dia</label>
         <select class="form-inp" id="newTaskDia">
-          \${DIAS_SEMANA.map(d=>'<option value="'+d.id+'"'+(d.id===HOJE_DIA?' selected':'')+'>'+d.nome+'</option>').join('')}
+          ${DIAS_SEMANA.map(d=>'<option value="'+d.id+'"'+(d.id===HOJE_DIA?' selected':'')+'>'+d.nome+'</option>').join('')}
         </select>
       </div>
       <div class="ff"><label>Prioridade</label>
@@ -1732,11 +1744,11 @@ function renderPainel() {
       </div>
     </div>
     <div class="filter-bar">
-      \${['todos','pendente','feita','alta'].map(f=>'<button class="ftab'+(filtroAtivo===f?' active':'')+'" onclick="setFiltro(''+f+'')">'+{todos:'Todas',pendente:'Pendentes',feita:'Concluídas',alta:'Alta prioridade'}[f]+'</button>').join('')}
-      \${DIAS_SEMANA.map(d=>'<button class="ftab'+(filtroAtivo===d.id?' active':'')+'" onclick="setFiltro(''+d.id+'')">'+d.nome+'</button>').join('')}
+      ${['todos','pendente','feita','alta'].map(f=>'<button class="ftab'+(filtroAtivo===f?' active':'')+'" onclick="setFiltro(\''+f+'\')">'+{todos:'Todas',pendente:'Pendentes',feita:'Concluídas',alta:'Alta prioridade'}[f]+'</button>').join('')}
+      ${DIAS_SEMANA.map(d=>'<button class="ftab'+(filtroAtivo===d.id?' active':'')+'" onclick="setFiltro(\''+d.id+'\')">'+d.nome+'</button>').join('')}
     </div>
-    <div id="taskSections">\${renderTaskSections(p.id)}</div>
-  \`;
+    <div id="taskSections">${renderTaskSections(p.id)}</div>
+  `;
   document.getElementById('newTaskText')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') adicionarTarefa();
   });
@@ -1753,35 +1765,35 @@ function renderTaskSections(painelId) {
   const grupos = DIAS_SEMANA.map(d => ({
     dia: d, tarefas: ts.filter(t => t.dia === d.id)
   })).filter(g => g.tarefas.length > 0 || filtroAtivo === 'todos' || filtroAtivo === g.dia.id);
-  return grupos.map(g => \`
+  return grupos.map(g => `
     <div class="task-section">
       <div class="task-section-header">
-        <span class="task-section-label">\${g.dia.nome}</span>
-        \${g.dia.id === HOJE_DIA ? '<span class="today-chip">Hoje</span>' : ''}
-        <span class="task-section-count">\${g.tarefas.length}</span>
+        <span class="task-section-label">${g.dia.nome}</span>
+        ${g.dia.id === HOJE_DIA ? '<span class="today-chip">Hoje</span>' : ''}
+        <span class="task-section-count">${g.tarefas.length}</span>
       </div>
       <div class="tasks-list">
-        \${g.tarefas.length === 0
+        ${g.tarefas.length === 0
           ? '<div class="empty-tasks">Sem tarefas para '+g.dia.nome.toLowerCase()+'</div>'
-          : g.tarefas.map(t => \`
-            <div class="task-card\${t.feita?' done':''}">
-              <div class="task-cb" onclick="toggleTarefa('\${t.id}')">
+          : g.tarefas.map(t => `
+            <div class="task-card${t.feita?' done':''}">
+              <div class="task-cb" onclick="toggleTarefa('${t.id}')">
                 <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="1 5 4.5 9 11 1"/></svg>
               </div>
               <div class="task-body">
-                <div class="task-text">\${esc(t.texto)}</div>
+                <div class="task-text">${esc(t.texto)}</div>
                 <div class="task-meta">
-                  <span class="p-badge \${t.prioridade}">\${t.prioridade}</span>
-                  <span class="day-badge">\${DIAS_SEMANA.find(d=>d.id===t.dia)?.nome||t.dia}</span>
+                  <span class="p-badge ${t.prioridade}">${t.prioridade}</span>
+                  <span class="day-badge">${DIAS_SEMANA.find(d=>d.id===t.dia)?.nome||t.dia}</span>
                 </div>
               </div>
-              <button class="btn-del" onclick="excluirTarefa('\${t.id}')">
+              <button class="btn-del" onclick="excluirTarefa('${t.id}')">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
-            </div>\`).join('')
+            </div>`).join('')
         }
       </div>
-    </div>\`).join('');
+    </div>`).join('');
 }
 
 // ── MODAIS ──
@@ -1827,11 +1839,11 @@ window.abrirDrawer = function() {
     ? '<div style="padding:16px;color:var(--text3);font-size:13px;text-align:center">Nenhum painel ainda</div>'
     : data.paineis.map(p => {
         const total = data.tarefas.filter(t => t.painelId === p.id).length;
-        return \`<div class="painel-item" onclick="fecharDrawer();abrirPainel('\${p.id}')">
-          <div class="painel-item-dot" style="background:\${p.cor}"></div>
-          <span class="painel-item-icon">\${p.emoji}</span>
-          <span class="painel-item-name">\${esc(p.nome)}</span>
-          <span class="painel-item-count">\${total}</span></div>\`;
+        return `<div class="painel-item" onclick="fecharDrawer();abrirPainel('${p.id}')">
+          <div class="painel-item-dot" style="background:${p.cor}"></div>
+          <span class="painel-item-icon">${p.emoji}</span>
+          <span class="painel-item-name">${esc(p.nome)}</span>
+          <span class="painel-item-count">${total}</span></div>`;
       }).join('');
   document.getElementById('mobileDrawer').classList.add('open');
   document.getElementById('drawerOverlay').classList.add('open');
@@ -1846,7 +1858,7 @@ window.fecharDrawer = function() {
   const nav = document.querySelector('.sidebar-nav');
   const btn = document.createElement('button');
   btn.className = 'mobile-panels-btn';
-  btn.innerHTML = \`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="15" y="14" width="6" height="7" rx="2"/></svg><span>Painéis</span>\`;
+  btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="15" y="14" width="6" height="7" rx="2"/></svg><span>Painéis</span>`;
   btn.addEventListener('click', abrirDrawer);
   nav.appendChild(btn);
 })();
