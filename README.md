@@ -45,6 +45,7 @@ Os dados sao salvos em:
 ```text
 users/{uid}/paineis
 users/{uid}/tarefas
+users/{uid}/alimentacao
 ```
 
 Use `firestore.rules` como base de seguranca no console/projeto Firebase para garantir que cada usuario acesse somente os proprios dados.
@@ -58,3 +59,10 @@ O painel suporta:
 - Busca dentro do painel.
 - Filtros por status, prioridade e dia.
 - Agrupamento por dia, status ou prioridade.
+- Agenda semanal de domingo a sabado.
+- Edicao de tarefa com descricao, dia, prioridade e status.
+- Planejamento alimentar semanal por dia e refeicao.
+
+## Seguranca no front-end
+
+O codigo de um app web sempre pode ser inspecionado no navegador. A seguranca real fica nas regras do Firebase, validacoes de autenticacao e ausencia de segredos no cliente. O projeto inclui CSP basica e regras do Firestore para reduzir superficie de ataque, mas funcoes sensiveis devem ficar em backend/Cloud Functions quando forem adicionadas.

@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TaskFlow — Painel</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com;">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0e1a">
 <meta name="mobile-web-app-capable" content="yes">
@@ -607,7 +609,7 @@ select.form-inp option { background: #141b2d; }
 .task-card.done .task-cb svg { display: block; }
 
 /* Task body */
-.task-body { flex: 1; min-width: 0; }
+.task-body { flex: 1; min-width: 0; cursor: pointer; }
 
 .task-text { font-size: 13px; line-height: 1.45; word-break: break-word; color: var(--text); }
 
@@ -732,6 +734,48 @@ select.form-inp option { background: #141b2d; }
 .wt-painel { font-size: 10px; color: var(--text3); margin-top: 3px; }
 
 .week-empty { padding: 16px; text-align: center; color: var(--text3); font-size: 12px; }
+
+/* Meal planner */
+.meal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(180px, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.meal-day {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.meal-day.today { border-color: rgba(34,197,94,0.35); }
+.meal-day-header {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.meal-day-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
+.meal-list { display: flex; flex-direction: column; gap: 10px; padding: 12px; }
+.meal-field { display: flex; flex-direction: column; gap: 5px; }
+.meal-field label {
+  font-size: 10px; font-weight: 600;
+  color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.meal-field textarea {
+  min-height: 64px; resize: vertical;
+  padding: 9px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px; line-height: 1.4;
+  outline: none;
+}
+.meal-field textarea:focus {
+  border-color: var(--success);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.12);
+}
 
 /* ════════════════════════════════
    BUTTONS
@@ -1067,6 +1111,20 @@ select.form-inp option { background: #141b2d; }
     scroll-snap-align: start;
   }
 
+  .meal-grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .meal-day {
+    min-width: 230px;
+    scroll-snap-align: start;
+  }
+
   /* Painel: form em coluna */
   .add-task-form {
     flex-direction: column;
@@ -1258,6 +1316,10 @@ select.form-inp option { background: #141b2d; }
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       <span>Agenda Semanal</span>
     </button>
+    <button class="nav-item" onclick="abrirAlimentacao()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 3v7a4 4 0 0 0 8 0V3"/><path d="M8 3v18"/><path d="M19 3v18"/><path d="M15 3h4a3 3 0 0 1 0 6h-4"/></svg>
+      <span>Alimentacao</span>
+    </button>
     <button class="nav-item" onclick="abrirPerfil()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
       <span>Minha Conta</span>
@@ -1297,9 +1359,17 @@ select.form-inp option { background: #141b2d; }
   <div id="viewAgenda" class="view">
     <div class="page-header">
       <div class="page-title-row"><span class="page-emoji">📅</span><h1 class="page-title">Agenda Semanal</h1></div>
-      <p class="page-subtitle">Semana atual</p>
+      <p class="page-subtitle">Semana completa, de domingo a sÃ¡bado</p>
     </div>
     <div class="week-grid" id="weekGrid"></div>
+  </div>
+
+  <div id="viewAlimentacao" class="view">
+    <div class="page-header">
+      <div class="page-title-row"><span class="page-emoji">🍽️</span><h1 class="page-title">Planejamento Alimentar</h1></div>
+      <p class="page-subtitle">Cardapio semanal de domingo a sabado</p>
+    </div>
+    <div class="meal-grid" id="mealGrid"></div>
   </div>
 
   <div id="viewPainel" class="view"></div>
@@ -1370,6 +1440,40 @@ select.form-inp option { background: #141b2d; }
       <div style="flex:1"></div>
       <button class="btn-ghost" onclick="fecharModal('modalEditarPainel')">Cancelar</button>
       <button class="btn-primary-sm" onclick="salvarEdicaoPainel()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Tarefa -->
+<div class="modal-overlay" id="modalEditarTarefa">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Editar Tarefa</h3>
+      <button class="btn-icon" onclick="fecharModal('modalEditarTarefa')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editTarefaId">
+      <div class="form-field"><label>Descricao</label><input type="text" id="editTarefaTexto" maxlength="120"></div>
+      <div class="profile-grid">
+        <div class="form-field"><label>Dia</label><select class="form-inp" id="editTarefaDia"></select></div>
+        <div class="form-field"><label>Prioridade</label><select class="form-inp" id="editTarefaPrioridade">
+          <option value="baixa">Baixa</option>
+          <option value="media">Media</option>
+          <option value="alta">Alta</option>
+        </select></div>
+      </div>
+      <div class="form-field"><label>Status</label><select class="form-inp" id="editTarefaStatus">
+        <option value="pendente">Pendente</option>
+        <option value="feita">Concluida</option>
+      </select></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-danger-sm" onclick="excluirTarefaEditando()">Excluir</button>
+      <div style="flex:1"></div>
+      <button class="btn-ghost" onclick="fecharModal('modalEditarTarefa')">Cancelar</button>
+      <button class="btn-primary-sm" onclick="salvarTarefaEditada()">Salvar</button>
     </div>
   </div>
 </div>
@@ -1452,7 +1556,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import {
   getFirestore, collection, doc,
-  onSnapshot, addDoc, updateDoc, deleteDoc,
+  onSnapshot, addDoc, updateDoc, deleteDoc, setDoc,
   query, orderBy, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
@@ -1472,7 +1576,7 @@ const db    = getFirestore(fbApp);
 
 // ── STATE ──
 let USER = null;
-let data = { paineis: [], tarefas: [] };
+let data = { paineis: [], tarefas: [], alimentacao: [] };
 let viewAtual = 'geral';
 let painelAtivoId = null;
 let filtroAtivo = 'todos';
@@ -1483,17 +1587,26 @@ let corSelecionada   = '#3b82f6';
 let sidebarCollapsed = false;
 let unsubPaineis = null;
 let unsubTarefas = null;
+let unsubAlimentacao = null;
 let carregamentoFinalizado = false;
 
 const DIAS_SEMANA = [
+  { id:'domingo', nome:'Domingo' },
   { id:'segunda', nome:'Segunda' },
   { id:'terca',   nome:'Terça'   },
   { id:'quarta',  nome:'Quarta'  },
   { id:'quinta',  nome:'Quinta'  },
   { id:'sexta',   nome:'Sexta'   },
+  { id:'sabado',  nome:'Sabado'  },
 ];
-const HOJE_IDX = (new Date().getDay() + 6) % 7;
-const HOJE_DIA = ['segunda','terca','quarta','quinta','sexta'][HOJE_IDX] || null;
+const REFEICOES = [
+  { id:'cafe', nome:'Cafe da manha' },
+  { id:'almoco', nome:'Almoco' },
+  { id:'lanche', nome:'Lanche' },
+  { id:'jantar', nome:'Jantar' },
+];
+const HOJE_DIA = ['domingo','segunda','terca','quarta','quinta','sexta','sabado'][new Date().getDay()];
+const SEMANA_ATUAL = getSemanaKey(new Date());
 
 // ── SYNC INDICATOR ──
 function setSyncing(v) {
@@ -1524,6 +1637,7 @@ function atualizarUsuarioNaTela() {
 window.sair = async function() {
   if (unsubPaineis) unsubPaineis();
   if (unsubTarefas) unsubTarefas();
+  if (unsubAlimentacao) unsubAlimentacao();
   await signOut(auth);
   window.location.replace('./index.html?v=' + Date.now());
 };
@@ -1617,12 +1731,14 @@ function painelCol()  { return collection(db, 'users', USER.uid, 'paineis'); }
 function tarefaCol()  { return collection(db, 'users', USER.uid, 'tarefas'); }
 function painelDoc(id){ return doc(db, 'users', USER.uid, 'paineis', id); }
 function tarefaDoc(id){ return doc(db, 'users', USER.uid, 'tarefas', id); }
+function alimentacaoCol() { return collection(db, 'users', USER.uid, 'alimentacao'); }
+function alimentacaoDoc(id){ return doc(db, 'users', USER.uid, 'alimentacao', id); }
 
 // ── LISTENERS TEMPO REAL ──
 function iniciarListeners() {
   setSyncing(true);
   carregamentoFinalizado = false;
-  let loadedP = false, loadedT = false;
+  let loadedP = false, loadedT = false, loadedA = false;
   const onErroFirestore = erro => {
     console.error('Erro ao carregar dados do Firestore:', erro);
     setSyncing(false);
@@ -1635,23 +1751,25 @@ function iniciarListeners() {
   unsubPaineis = onSnapshot(query(painelCol(), orderBy('criadoEm')), snap => {
     data.paineis = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedP = true;
-    if (loadedP && loadedT) {
-      finalizarCarregamento();
-      renderTudo();
-      atualizarStorageInfo();
-    }
-    else renderTudo();
+    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    renderTudo();
+    atualizarStorageInfo();
   }, onErroFirestore);
 
   unsubTarefas = onSnapshot(query(tarefaCol(), orderBy('criadoEm')), snap => {
     data.tarefas = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     loadedT = true;
-    if (loadedP && loadedT) {
-      finalizarCarregamento();
-      renderTudo();
-      atualizarStorageInfo();
-    }
-    else renderTudo();
+    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    renderTudo();
+    atualizarStorageInfo();
+  }, onErroFirestore);
+
+  unsubAlimentacao = onSnapshot(query(alimentacaoCol(), orderBy('criadoEm')), snap => {
+    data.alimentacao = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    loadedA = true;
+    if (loadedP && loadedT && loadedA) finalizarCarregamento();
+    renderTudo();
+    atualizarStorageInfo();
   }, onErroFirestore);
 }
 
@@ -1732,7 +1850,7 @@ window.adicionarTarefa = async function() {
   await addDoc(tarefaCol(), {
     painelId: painelAtivoId,
     texto: input.value.trim(),
-    dia: dia || 'segunda',
+    dia: dia || HOJE_DIA || 'domingo',
     prioridade: prio || 'media',
     feita: false,
     criadoEm: serverTimestamp()
@@ -1757,6 +1875,64 @@ window.excluirTarefa = async function(id) {
   toast('Tarefa removida.', '');
 };
 
+window.abrirEditarTarefa = function(e, id) {
+  e.stopPropagation();
+  const t = data.tarefas.find(t => t.id === id);
+  if (!t) return;
+  document.getElementById('editTarefaId').value = id;
+  document.getElementById('editTarefaTexto').value = t.texto || '';
+  document.getElementById('editTarefaDia').innerHTML = DIAS_SEMANA
+    .map(d => '<option value="'+d.id+'"'+(d.id === t.dia ? ' selected' : '')+'>'+d.nome+'</option>')
+    .join('');
+  document.getElementById('editTarefaPrioridade').value = t.prioridade || 'media';
+  document.getElementById('editTarefaStatus').value = t.feita ? 'feita' : 'pendente';
+  abrirModal('modalEditarTarefa');
+};
+
+window.salvarTarefaEditada = async function() {
+  const id = document.getElementById('editTarefaId').value;
+  const texto = document.getElementById('editTarefaTexto').value.trim();
+  if (!id || !texto) { toast('Digite a descricao da tarefa.', 'e'); return; }
+  setSyncing(true);
+  await updateDoc(tarefaDoc(id), {
+    texto,
+    dia: document.getElementById('editTarefaDia').value,
+    prioridade: document.getElementById('editTarefaPrioridade').value,
+    feita: document.getElementById('editTarefaStatus').value === 'feita',
+    atualizadoEm: serverTimestamp()
+  });
+  setSyncing(false);
+  fecharModal('modalEditarTarefa');
+  toast('Tarefa atualizada.', 's');
+};
+
+window.excluirTarefaEditando = async function() {
+  const id = document.getElementById('editTarefaId').value;
+  if (!id || !confirm('Excluir esta tarefa?')) return;
+  await deleteDoc(tarefaDoc(id));
+  fecharModal('modalEditarTarefa');
+  toast('Tarefa removida.', '');
+};
+
+window.salvarRefeicao = async function(dia, tipo, texto) {
+  const id = `${SEMANA_ATUAL}_${dia}_${tipo}`;
+  try {
+    setSyncing(true);
+    await setDoc(alimentacaoDoc(id), {
+      semana: SEMANA_ATUAL,
+      dia,
+      tipo,
+      texto: texto.trim(),
+      atualizadoEm: serverTimestamp(),
+      criadoEm: serverTimestamp()
+    }, { merge: true });
+  } catch (e) {
+    toast('Nao foi possivel salvar o planejamento alimentar.', 'e');
+  } finally {
+    setSyncing(false);
+  }
+};
+
 window.setFiltro = function(f) { filtroAtivo = f; renderPainel(); };
 window.setAgrupamento = function(v) { agrupamentoTarefas = v; renderPainel(); };
 window.setBuscaTarefa = function(v) { buscaTarefa = v.trim().toLowerCase(); renderPainel(); };
@@ -1766,6 +1942,7 @@ function renderTudo() {
   renderSidebar();
   if (viewAtual === 'geral')   renderVisaoGeral();
   else if (viewAtual === 'agenda') renderAgenda();
+  else if (viewAtual === 'alimentacao') renderAlimentacao();
   else if (viewAtual === 'painel') renderPainel();
 }
 
@@ -1792,6 +1969,7 @@ function renderSidebar() {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   if (viewAtual === 'geral')  document.querySelectorAll('.nav-item')[0]?.classList.add('active');
   if (viewAtual === 'agenda') document.querySelectorAll('.nav-item')[1]?.classList.add('active');
+  if (viewAtual === 'alimentacao') document.querySelectorAll('.nav-item')[2]?.classList.add('active');
   atualizarStorageInfo();
 }
 
@@ -1859,7 +2037,11 @@ function renderAgenda() {
             <div class="wt-body">
               <div class="wt-text">${esc(t.texto)}</div>
               ${p?'<div class="wt-painel" style="color:'+p.cor+'">'+p.emoji+' '+esc(p.nome)+'</div>':''}
-            </div></div>`;
+            </div>
+            <button class="btn-icon" onclick="abrirEditarTarefa(event,'${t.id}')" title="Editar tarefa">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+            </button>
+          </div>`;
         }).join('');
     return `<div class="week-col${isHoje?' today':''}">
       <div class="week-col-header">
@@ -1870,6 +2052,33 @@ function renderAgenda() {
         </div>
       </div>
       <div class="week-col-tasks">${cards}</div></div>`;
+  }).join('');
+}
+
+window.abrirAlimentacao = function() {
+  viewAtual = 'alimentacao'; painelAtivoId = null;
+  showView('viewAlimentacao'); renderSidebar(); renderAlimentacao();
+};
+
+function renderAlimentacao() {
+  const grid = document.getElementById('mealGrid');
+  grid.innerHTML = DIAS_SEMANA.map(d => {
+    const isHoje = d.id === HOJE_DIA;
+    return `<div class="meal-day${isHoje ? ' today' : ''}">
+      <div class="meal-day-header">
+        <span class="meal-day-name">${d.nome}</span>
+        ${isHoje ? '<span class="today-chip">Hoje</span>' : ''}
+      </div>
+      <div class="meal-list">
+        ${REFEICOES.map(r => {
+          const item = data.alimentacao.find(a => a.semana === SEMANA_ATUAL && a.dia === d.id && a.tipo === r.id);
+          return `<div class="meal-field">
+            <label>${r.nome}</label>
+            <textarea maxlength="240" placeholder="Planejar ${r.nome.toLowerCase()}" onchange="salvarRefeicao('${d.id}','${r.id}',this.value)">${esc(item?.texto || '')}</textarea>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -1972,13 +2181,16 @@ function renderTaskSections(painelId) {
               <div class="task-cb" onclick="toggleTarefa('${t.id}')">
                 <svg width="8" height="8" viewBox="0 0 12 10" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><polyline points="1 5 4.5 9 11 1"/></svg>
               </div>
-              <div class="task-body">
+              <div class="task-body" onclick="abrirEditarTarefa(event,'${t.id}')">
                 <div class="task-text">${esc(t.texto)}</div>
                 <div class="task-meta">
                   <span class="p-badge ${t.prioridade}">${t.prioridade}</span>
                   <span class="day-badge">${DIAS_SEMANA.find(d=>d.id===t.dia)?.nome||t.dia}</span>
                 </div>
               </div>
+              <button class="btn-del" onclick="abrirEditarTarefa(event,'${t.id}')" title="Editar tarefa">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"/></svg>
+              </button>
               <button class="btn-del" onclick="excluirTarefa('${t.id}')">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
@@ -2097,6 +2309,13 @@ function atualizarStorageInfo() {
 }
 
 // ── UTIL ──
+function getSemanaKey(date) {
+  const d = new Date(date);
+  d.setHours(0,0,0,0);
+  d.setDate(d.getDate() - d.getDay());
+  return d.toISOString().slice(0,10);
+}
+
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
