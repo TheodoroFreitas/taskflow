@@ -179,6 +179,37 @@ body {
   scrollbar-color: rgba(255,255,255,0.08) transparent;
 }
 
+.sidebar-food-card {
+  margin: 10px 8px 8px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(34,197,94,0.06);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.sidebar-food-card:hover {
+  border-color: rgba(34,197,94,0.25);
+  background: rgba(34,197,94,0.09);
+}
+
+.sidebar-food-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sidebar-food-meta {
+  margin-top: 6px;
+  color: var(--text3);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 .section-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 6px 14px 4px;
@@ -269,7 +300,7 @@ body {
 }
 
 /* Views */
-.view { display: none; padding: 40px 48px 60px; max-width: 1100px; }
+.view { display: none; padding: 40px 48px 60px; max-width: 1280px; }
 .view.active { display: block; }
 
 /* Page header */
@@ -295,20 +326,35 @@ body {
 ════════════════════════════════ */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 14px;
-  margin-bottom: 36px;
+  margin-bottom: 22px;
 }
 
 .stat-card {
+  position: relative;
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 18px 20px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.stat-card:hover { border-color: var(--border2); }
+.stat-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--stat-color, var(--accent));
+}
+
+.stat-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+.stat-card.stat-total { --stat-color: #60a5fa; }
+.stat-card.stat-done { --stat-color: #22c55e; }
+.stat-card.stat-open { --stat-color: #f59e0b; }
+.stat-card.stat-high { --stat-color: #ef4444; }
+.stat-card.stat-panels { --stat-color: #a78bfa; }
 
 .stat-label {
   font-size: 11px; font-weight: 500;
@@ -321,6 +367,78 @@ body {
   font-family: 'Syne', sans-serif;
   font-size: 30px; font-weight: 800;
 }
+
+.stat-foot {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.dashboard-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 18px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.month-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+}
+
+.month-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.month-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.month-sub {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.month-weekdays,
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.month-weekdays span {
+  text-align: center;
+  font-size: 10px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.month-day {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.025);
+  padding: 6px;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.month-day.muted { opacity: 0.35; }
+.month-day.today { border-color: rgba(37,99,235,0.55); background: rgba(37,99,235,0.09); }
+.month-day.has-task { border-color: rgba(96,165,250,0.35); }
+.month-day-num { display: flex; justify-content: space-between; align-items: center; }
+.month-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-h); }
+.month-day-count { margin-top: 5px; color: var(--text3); font-size: 10px; }
 
 .stat-value.c-blue { color: #60a5fa; }
 .stat-value.c-green { color: var(--success); }
@@ -403,9 +521,9 @@ body {
 ════════════════════════════════ */
 .week-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
 }
 
 /* ════════════════════════════════
@@ -668,6 +786,9 @@ select.form-inp option { background: #141b2d; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color 0.2s;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .week-col.today { border-color: rgba(37,99,235,0.35); }
@@ -681,7 +802,7 @@ select.form-inp option { background: #141b2d; }
 
 .week-day-name {
   font-family: 'Syne', sans-serif;
-  font-size: 14px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
 }
 
 .today-chip {
@@ -699,7 +820,7 @@ select.form-inp option { background: #141b2d; }
   padding: 2px 7px; border-radius: 100px;
 }
 
-.week-col-tasks { padding: 10px; display: flex; flex-direction: column; gap: 7px; }
+.week-col-tasks { padding: 10px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
 
 .week-task {
   display: flex; align-items: flex-start; gap: 7px;
@@ -738,15 +859,16 @@ select.form-inp option { background: #141b2d; }
 /* Meal planner */
 .meal-grid {
   display: grid;
-  grid-template-columns: repeat(7, minmax(180px, 1fr));
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 12px;
-  align-items: start;
+  align-items: stretch;
 }
 .meal-day {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  min-height: 420px;
 }
 .meal-day.today { border-color: rgba(34,197,94,0.35); }
 .meal-day-header {
@@ -1095,6 +1217,8 @@ select.form-inp option { background: #141b2d; }
 
   /* Overview grid 1 coluna */
   .overview-grid { grid-template-columns: 1fr; gap: 12px; }
+  .dashboard-row { grid-template-columns: 1fr; }
+  .month-day { min-height: 38px; padding: 5px; }
 
   /* Agenda semana — scroll horizontal */
   .week-grid {
@@ -1336,6 +1460,13 @@ select.form-inp option { background: #141b2d; }
       </button>
     </div>
     <div id="painelList" class="painel-list"></div>
+    <div class="sidebar-food-card" onclick="abrirAlimentacao()">
+      <div class="sidebar-food-title">
+        <span>🍽️</span>
+        <span>Alimentacao</span>
+      </div>
+      <div class="sidebar-food-meta" id="sidebarFoodMeta">Planejamento semanal</div>
+    </div>
   </div>
 
   <div class="sidebar-bottom">
@@ -1353,7 +1484,10 @@ select.form-inp option { background: #141b2d; }
       <p class="page-subtitle">Resumo de todos os seus painéis e tarefas</p>
     </div>
     <div class="stats-grid" id="statsGrid"></div>
-    <div class="overview-grid" id="overviewGrid"></div>
+    <div class="dashboard-row">
+      <div class="overview-grid" id="overviewGrid"></div>
+      <div id="monthCalendar"></div>
+    </div>
   </div>
 
   <div id="viewAgenda" class="view">
@@ -1971,6 +2105,7 @@ function renderSidebar() {
   if (viewAtual === 'agenda') document.querySelectorAll('.nav-item')[1]?.classList.add('active');
   if (viewAtual === 'alimentacao') document.querySelectorAll('.nav-item')[2]?.classList.add('active');
   atualizarStorageInfo();
+  atualizarResumoAlimentacao();
 }
 
 function showView(id) {
@@ -1988,13 +2123,22 @@ function renderVisaoGeral() {
   const feitas   = data.tarefas.filter(t => t.feita).length;
   const pendentes= total - feitas;
   const alta     = data.tarefas.filter(t => t.prioridade === 'alta' && !t.feita).length;
+  const pct       = total > 0 ? Math.round((feitas / total) * 100) : 0;
   document.getElementById('statsGrid').innerHTML = `
-    <div class="stat-card"><div class="stat-label">Total</div><div class="stat-value c-blue">${total}</div></div>
+    <div class="stat-card stat-total"><div class="stat-label">Total</div><div class="stat-value c-blue">${total}</div><div class="stat-foot">tarefas registradas</div></div>
     <div class="stat-card"><div class="stat-label">Concluídas</div><div class="stat-value c-green">${feitas}</div></div>
     <div class="stat-card"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">${pendentes}</div></div>
     <div class="stat-card"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">${alta}</div></div>
     <div class="stat-card"><div class="stat-label">Painéis</div><div class="stat-value c-blue">${data.paineis.length}</div></div>
   `;
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card stat-total"><div class="stat-label">Total</div><div class="stat-value c-blue">${total}</div><div class="stat-foot">tarefas registradas</div></div>
+    <div class="stat-card stat-done"><div class="stat-label">Concluidas</div><div class="stat-value c-green">${feitas}</div><div class="stat-foot">${pct}% de progresso</div></div>
+    <div class="stat-card stat-open"><div class="stat-label">Pendentes</div><div class="stat-value c-warn">${pendentes}</div><div class="stat-foot">itens em aberto</div></div>
+    <div class="stat-card stat-high"><div class="stat-label">Alta prioridade</div><div class="stat-value c-red">${alta}</div><div class="stat-foot">exigem atencao</div></div>
+    <div class="stat-card stat-panels"><div class="stat-label">Paineis</div><div class="stat-value c-blue">${data.paineis.length}</div><div class="stat-foot">areas ativas</div></div>
+  `;
+  renderCalendarioMensal();
   const grid = document.getElementById('overviewGrid');
   if (data.paineis.length === 0) {
     grid.innerHTML = `<div class="overview-empty">Nenhum painel ainda.<br>Clique em <strong>+</strong> na sidebar para criar o primeiro.</div>`;
@@ -2015,6 +2159,43 @@ function renderVisaoGeral() {
         </div>
       </div></div>`;
   }).join('');
+}
+
+function renderCalendarioMensal() {
+  const el = document.getElementById('monthCalendar');
+  if (!el) return;
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth();
+  const primeiro = new Date(ano, mes, 1);
+  const ultimo = new Date(ano, mes + 1, 0);
+  const inicio = new Date(primeiro);
+  inicio.setDate(1 - primeiro.getDay());
+  const mesNome = hoje.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+  const tarefasPorDiaSemana = DIAS_SEMANA.reduce((acc, d) => {
+    acc[d.id] = data.tarefas.filter(t => t.dia === d.id && !t.feita).length;
+    return acc;
+  }, {});
+  const dias = [];
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(inicio);
+    d.setDate(inicio.getDate() + i);
+    const diaId = ['domingo','segunda','terca','quarta','quinta','sexta','sabado'][d.getDay()];
+    const count = tarefasPorDiaSemana[diaId] || 0;
+    const isHoje = d.toDateString() === hoje.toDateString();
+    const muted = d.getMonth() !== mes;
+    dias.push(`<div class="month-day${muted ? ' muted' : ''}${isHoje ? ' today' : ''}${count ? ' has-task' : ''}">
+      <div class="month-day-num"><span>${d.getDate()}</span>${count ? '<span class="month-dot"></span>' : ''}</div>
+      ${count ? `<div class="month-day-count">${count} pend.</div>` : ''}
+    </div>`);
+  }
+  el.innerHTML = `<div class="month-card">
+    <div class="month-card-header">
+      <div><div class="month-title">${mesNome}</div><div class="month-sub">tarefas pendentes por dia da semana</div></div>
+    </div>
+    <div class="month-weekdays"><span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sab</span></div>
+    <div class="month-grid">${dias.join('')}</div>
+  </div>`;
 }
 
 window.abrirAgenda = function() {
@@ -2309,6 +2490,14 @@ function atualizarStorageInfo() {
 }
 
 // ── UTIL ──
+function atualizarResumoAlimentacao() {
+  const el = document.getElementById('sidebarFoodMeta');
+  if (!el) return;
+  const preenchidas = data.alimentacao.filter(a => a.semana === SEMANA_ATUAL && a.texto).length;
+  const total = DIAS_SEMANA.length * REFEICOES.length;
+  el.textContent = `${preenchidas}/${total} refeicoes planejadas`;
+}
+
 function getSemanaKey(date) {
   const d = new Date(date);
   d.setHours(0,0,0,0);
